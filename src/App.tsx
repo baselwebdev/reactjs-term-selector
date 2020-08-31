@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.css';
-import SearchBox from './components/SearchBox';
+import SearchForm from './components/SearchBox';
 
 function App() {
   return (
       <main>
         <h3>Selected terms:</h3>
           <div className={'row'}>
-              <SearchBox />
+              <SearchForm />
               <div className={'col-6'}>
                   <h3>Parent terms:</h3>
                   <div className={'no_term_items col-3'}>None</div>
