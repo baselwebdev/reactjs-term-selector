@@ -24,3 +24,6 @@ yarn-error.log*
 
 # IDE
 .idea/
+
+# Compiled file
+src/App.css
