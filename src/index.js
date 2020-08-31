@@ -1,12 +1,12 @@
-/*global CustomElement*/
+// /*global CustomElement*/
 import React from 'react';
 import './App.css';
 import ReactDOM from 'react-dom';
 import App from './App';
 
-CustomElement.init((element, _context) => {
-
-});
+// CustomElement.init((element, _context) => {
+//
+// });
 
 ReactDOM.render(
     <React.StrictMode>
@@ -15,4 +15,4 @@ ReactDOM.render(
     document.getElementById('root')
 );
 
-CustomElement.setHeight(250);
+// CustomElement.setHeight(250);
