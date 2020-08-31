@@ -1,0 +1,58 @@
+@use 'Variables';
+
+input {
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background-color: #f1f1f1;
+  padding: 10px;
+  font-size: 16px;
+  &[type=text] {
+    background-color: #f1f1f1;
+    width: 100%;
+  }
+  &[type=submit] {
+    width: 80px;
+    background-color: Variables.$blue;
+    color: #fff;
+  }
+  &:disabled {
+    color: black;
+    background-color: Variables.$grey;
+  }
+}
+
+#added_terms_list {
+  padding-inline-start: 0;
+}
+
+@mixin buttons {
+  border: 1px solid transparent;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+  background-color: Variables.$light-blue;
+  color: #fff;
+}
+
+.current_term_item {
+  @include buttons;
+  &:hover {
+    background-color: Variables.$red;
+  }
+}
+
+.disabled_current_term_item {
+  @include buttons;
+}
+
+.meta_term_item {
+  @include buttons;
+  &:hover {
+    background-color: Variables.$very-light-blue;
+  }
+}
+
+.no_term_items {
+  @include buttons;
+  background-color: Variables.$red;
+}

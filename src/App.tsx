@@ -1,9 +1,13 @@
 import React from 'react';
-import './scss/App.scss';
+import './App.css';
 
 function App() {
   return (
-      <h1>Hello</h1>
+      <main>
+        <h3>Selected terms:</h3>
+        <input placeholder={"Terms"}/>
+        <input type={"submit"} value={"Add"} disabled/>
+      </main>
   );
 }
 
