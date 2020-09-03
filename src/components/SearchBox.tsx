@@ -14,7 +14,7 @@ class SearchForm extends React.Component<any, any> {
 
     searchTerms(SearchString: string): void {
         this.setSearchValue(SearchString);
-        this.findTermItem();
+        this.findTermItem(SearchString);
     }
 
     setSearchValue(SearchString: string): void {
@@ -23,11 +23,10 @@ class SearchForm extends React.Component<any, any> {
         });
     }
 
-    findTermItem(): void {
+    findTermItem(SearchString: string): void {
         const TermsCount = this.Terms.length;
         for (let i = 0; i < TermsCount; i++) {
-            console.log(this.Terms[i].Name.toUpperCase() === this.state.inputValue.toUpperCase());
-            if (this.Terms[i].Name.toUpperCase() === this.state.inputValue.toUpperCase()) {
+            if (this.Terms[i].Name.toUpperCase() === SearchString.toUpperCase()) {
                 console.log('Found ' + this.Terms[i].Name);
             }
         }
