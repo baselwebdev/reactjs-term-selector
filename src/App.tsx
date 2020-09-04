@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import SearchForm from './components/SearchBox';
+import NoneButton from "./components/NoneButton";
 
 function App() {
   return (
@@ -10,11 +11,11 @@ function App() {
               <SearchForm />
               <div className={'col-6'}>
                   <h3>Parent terms:</h3>
-                  <div className={'no_term_items col-3'}>None</div>
+                  <NoneButton/>
                   <h3>Child terms:</h3>
-                  <div className={'no_term_items col-3'}>None</div>
+                  <NoneButton/>
                   <h3>Related terms:</h3>
-                  <div className={'no_term_items col-3'}>None</div>
+                  <NoneButton/>
               </div>
           </div>
       </main>
