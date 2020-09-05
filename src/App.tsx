@@ -3,12 +3,12 @@ import './App.css';
 import SearchForm from './components/SearchBox';
 import NoneButton from './components/NoneButton';
 
-function App() {
+function App(): React.ReactElement {
     return (
         <main>
             <h3>Selected terms:</h3>
             <div className={'row'}>
-                <SearchForm />
+                <SearchForm status={true} />
                 <div className={'col-6'}>
                     <h3>Parent terms:</h3>
                     <NoneButton />

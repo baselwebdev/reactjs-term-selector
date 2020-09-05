@@ -2,4 +2,3 @@ node_modules
 public
 src/commands
 .eslintrc.js
-*.js
