@@ -32,12 +32,15 @@ class SearchForm extends React.Component<P, S> {
 
     searchTerms(SearchString: string): void {
         this.setSearchValue(SearchString);
-        this.findTermItem(SearchString);
+        if (SearchString !== '') {
+            this.findTermItem(SearchString);
+        }
     }
 
     setSearchValue(SearchString: string): void {
         this.setState({
             inputValue: SearchString,
+            foundTerms: [],
         });
     }
 
