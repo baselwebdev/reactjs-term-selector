@@ -59,14 +59,15 @@ class SearchForm extends React.Component<P, S> {
         });
     }
 
-    render() {
-        let result: JSX.Element | JSX.Element[] = <div className={'no_term_items col-3'}>Nothing found</div>;
-        if (this.state.foundTerms.length > 0) {
-            result = this.state.foundTerms.map((term: string, index: number) => {
-                return <p key={index}>{term}</p>;
-            });
-        }
+    createSearchResultsLists(): JSX.Element {
+        const searchResultsList = this.state.foundTerms.map((term: string, index: number) => {
+            return <div key={index}>{term}</div>;
+        });
 
+        return <div className={'autocomplete-items'}>{searchResultsList}</div>;
+    }
+
+    render() {
         return (
             <div className={'row'}>
                 <form autoComplete={'off'} className={'col-6'}>
@@ -78,9 +79,9 @@ class SearchForm extends React.Component<P, S> {
                             value={this.state.inputValue}
                             onChange={(event) => this.searchTerms(event.target.value)}
                         />
+                        {this.state.foundTerms.length > 0 && this.createSearchResultsLists()}
                     </div>
                     <input type={'submit'} value={'Add'} disabled />
-                    {result}
                 </form>
                 <div className={'col-6'}>
                     <h3>Parent terms:</h3>
