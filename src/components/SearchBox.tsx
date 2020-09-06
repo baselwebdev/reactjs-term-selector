@@ -93,6 +93,36 @@ class SearchForm extends React.Component<P, S> {
         return <div className={'autocomplete-items'}>{searchResultsList}</div>;
     }
 
+    createParentTermButtons(): JSX.Element[] {
+        return this.state.foundParentTerms.map((term: string, index: number) => {
+            return (
+                <div key={index} className={'col-4 meta_term_item'}>
+                    {term}
+                </div>
+            );
+        });
+    }
+
+    createChildTermButtons(): JSX.Element[] {
+        return this.state.foundChildTerms.map((term: string, index: number) => {
+            return (
+                <div key={index} className={'col-4 meta_term_item'}>
+                    {term}
+                </div>
+            );
+        });
+    }
+
+    createRelatedTermButtons(): JSX.Element[] {
+        return this.state.foundRelatedTerms.map((term: string, index: number) => {
+            return (
+                <div key={index} className={'col-4 meta_term_item'}>
+                    {term}
+                </div>
+            );
+        });
+    }
+
     render() {
         return (
             <div className={'row'}>
@@ -111,11 +141,17 @@ class SearchForm extends React.Component<P, S> {
                 </form>
                 <div className={'col-6'}>
                     <h3>Parent terms:</h3>
-                    <NoneButton />
+                    <div className="row">
+                        {this.state.foundParentTerms.length > 0 ? this.createParentTermButtons() : <NoneButton />}
+                    </div>
                     <h3>Child terms:</h3>
-                    <NoneButton />
+                    <div className="row">
+                        {this.state.foundParentTerms.length > 0 ? this.createChildTermButtons() : <NoneButton />}
+                    </div>
                     <h3>Related terms:</h3>
-                    <NoneButton />
+                    <div className="row">
+                        {this.state.foundParentTerms.length > 0 ? this.createRelatedTermButtons() : <NoneButton />}
+                    </div>
                 </div>
             </div>
         );
