@@ -10,22 +10,22 @@ export interface SubjectMatterTerm {
 }
 
 export interface P {
-    status: boolean;
+    value: string;
 }
 
 export interface S {
     inputValue: string;
-    foundTerms: [];
+    foundTerms: string[];
 }
 
 class SearchForm extends React.Component<P, S> {
     Terms: SubjectMatterTerm[];
 
-    constructor(props: Readonly<P>) {
+    constructor(props: P) {
         super(props);
         this.Terms = SubjectMatter;
         this.state = {
-            inputValue: '',
+            inputValue: props.value,
             foundTerms: [],
         };
     }
@@ -45,14 +45,24 @@ class SearchForm extends React.Component<P, S> {
         const FoundTerms = [];
         const TermsCount = this.Terms.length;
         for (let i = 0; i < TermsCount; i++) {
+            // todo: Using search string instead of state. Using state its not updated to latest search string.
             if (this.Terms[i].Name.substr(0, SearchString.length).toUpperCase() === SearchString.toUpperCase()) {
-                console.log('Found ' + this.Terms[i].Name);
                 FoundTerms.push(this.Terms[i].Name);
             }
         }
+        this.setState({
+            foundTerms: FoundTerms,
+        });
     }
 
     render() {
+        let result: JSX.Element | JSX.Element[] = <div className={'no_term_items col-3'}>Nothing found</div>;
+        if (this.state.foundTerms.length > 0) {
+            result = this.state.foundTerms.map((term: string, index: number) => {
+                return <p key={index}>{term}</p>;
+            });
+        }
+
         return (
             <form autoComplete={'off'} className={'col-6'}>
                 <div className={'autocomplete'}>
@@ -65,6 +75,7 @@ class SearchForm extends React.Component<P, S> {
                     />
                 </div>
                 <input type={'submit'} value={'Add'} disabled />
+                {result}
             </form>
         );
     }
