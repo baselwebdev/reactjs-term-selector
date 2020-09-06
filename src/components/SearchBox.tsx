@@ -17,6 +17,9 @@ export interface P {
 export interface S {
     inputValue: string;
     foundTerms: string[];
+    foundParentTerms: string[];
+    foundChildTerms: string[];
+    foundRelatedTerms: string[];
 }
 
 class SearchForm extends React.Component<P, S> {
@@ -28,6 +31,9 @@ class SearchForm extends React.Component<P, S> {
         this.state = {
             inputValue: props.value,
             foundTerms: [],
+            foundParentTerms: [],
+            foundChildTerms: [],
+            foundRelatedTerms: [],
         };
     }
 
@@ -42,20 +48,40 @@ class SearchForm extends React.Component<P, S> {
         this.setState({
             inputValue: SearchString,
             foundTerms: [],
+            foundParentTerms: [],
+            foundChildTerms: [],
+            foundRelatedTerms: [],
         });
     }
 
     findTermItem(SearchString: string): void {
         const FoundTerms = [];
+        let FoundParentTerms: string[] = [];
+        let FoundChildTerms: string[] = [];
+        let FoundRelatedTerms: string[] = [];
         const TermsCount = this.Terms.length;
         for (let i = 0; i < TermsCount; i++) {
             // todo: Using search string instead of state. Using state its not updated to latest search string.
             if (this.Terms[i].Name.substr(0, SearchString.length).toUpperCase() === SearchString.toUpperCase()) {
                 FoundTerms.push(this.Terms[i].Name);
+                if (this.Terms[i].Name.toUpperCase() === SearchString.toUpperCase()) {
+                    FoundParentTerms = this.Terms[i].ParentTerms.map((pt: string) => {
+                        return pt;
+                    });
+                    FoundChildTerms = this.Terms[i].ChildTerms.map((ct: string) => {
+                        return ct;
+                    });
+                    FoundRelatedTerms = this.Terms[i].RelatedTerms.map((rt: string) => {
+                        return rt;
+                    });
+                }
             }
         }
         this.setState({
             foundTerms: FoundTerms,
+            foundParentTerms: FoundParentTerms,
+            foundChildTerms: FoundChildTerms,
+            foundRelatedTerms: FoundRelatedTerms,
         });
     }
 
