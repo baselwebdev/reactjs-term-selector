@@ -1,5 +1,6 @@
 import React from 'react';
 import SubjectMatter from '../data/thesaurus.json';
+import NoneButton from './NoneButton';
 
 export interface SubjectMatterTerm {
     Name: string;
@@ -67,19 +68,29 @@ class SearchForm extends React.Component<P, S> {
         }
 
         return (
-            <form autoComplete={'off'} className={'col-6'}>
-                <div className={'autocomplete'}>
-                    <input
-                        id={'term_finder'}
-                        type={'text'}
-                        placeholder="Terms"
-                        value={this.state.inputValue}
-                        onChange={(event) => this.searchTerms(event.target.value)}
-                    />
+            <div className={'row'}>
+                <form autoComplete={'off'} className={'col-6'}>
+                    <div className={'autocomplete'}>
+                        <input
+                            id={'term_finder'}
+                            type={'text'}
+                            placeholder="Terms"
+                            value={this.state.inputValue}
+                            onChange={(event) => this.searchTerms(event.target.value)}
+                        />
+                    </div>
+                    <input type={'submit'} value={'Add'} disabled />
+                    {result}
+                </form>
+                <div className={'col-6'}>
+                    <h3>Parent terms:</h3>
+                    <NoneButton />
+                    <h3>Child terms:</h3>
+                    <NoneButton />
+                    <h3>Related terms:</h3>
+                    <NoneButton />
                 </div>
-                <input type={'submit'} value={'Add'} disabled />
-                {result}
-            </form>
+            </div>
         );
     }
 }
