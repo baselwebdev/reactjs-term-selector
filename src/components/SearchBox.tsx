@@ -93,47 +93,58 @@ class SearchForm extends React.Component<P, S> {
         });
     }
 
-    createSearchResultsLists(): JSX.Element {
-        const searchResultsList = this.state.foundTerms.map((term: string, index: number) => {
-            return (
-                <div key={index} onClick={() => this.searchTerms(term)}>
-                    <strong>{term.substr(0, this.state.inputValue.length)}</strong>
-                    {term.substr(this.state.inputValue.length)}
-                </div>
-            );
-        });
+    createSearchResultsLists(): JSX.Element | void {
+        if (this.state.foundTerms.length > 0) {
+            const searchResultsList = this.state.foundTerms.map((term: string, index: number) => {
+                return (
+                    <div key={index} onClick={() => this.searchTerms(term)}>
+                        <strong>{term.substr(0, this.state.inputValue.length)}</strong>
+                        {term.substr(this.state.inputValue.length)}
+                    </div>
+                );
+            });
 
-        return <div className={'autocomplete-items'}>{searchResultsList}</div>;
+            return <div className={'autocomplete-items'}>{searchResultsList}</div>;
+        }
     }
 
-    createParentTermButtons(): JSX.Element[] {
-        return this.state.foundParentTerms.map((term: string, index: number) => {
-            return (
-                <div key={index} className={'col-4 meta_term_item'}>
-                    {term}
-                </div>
-            );
-        });
+    createParentTermButtons(): JSX.Element | JSX.Element[] {
+        if (this.state.foundParentTerms.length > 0) {
+            return this.state.foundParentTerms.map((term: string, index: number) => {
+                return (
+                    <div key={index} className={'col-4 meta_term_item'}>
+                        {term}
+                    </div>
+                );
+            });
+        }
+        return <NoneButton />;
     }
 
-    createChildTermButtons(): JSX.Element[] {
-        return this.state.foundChildTerms.map((term: string, index: number) => {
-            return (
-                <div key={index} className={'col-4 meta_term_item'}>
-                    {term}
-                </div>
-            );
-        });
+    createChildTermButtons(): JSX.Element | JSX.Element[] {
+        if (this.state.foundChildTerms.length > 0) {
+            return this.state.foundChildTerms.map((term: string, index: number) => {
+                return (
+                    <div key={index} className={'col-4 meta_term_item'}>
+                        {term}
+                    </div>
+                );
+            });
+        }
+        return <NoneButton />;
     }
 
-    createRelatedTermButtons(): JSX.Element[] {
-        return this.state.foundRelatedTerms.map((term: string, index: number) => {
-            return (
-                <div key={index} className={'col-4 meta_term_item'}>
-                    {term}
-                </div>
-            );
-        });
+    createRelatedTermButtons(): JSX.Element | JSX.Element[] {
+        if (this.state.foundRelatedTerms.length > 0) {
+            return this.state.foundRelatedTerms.map((term: string, index: number) => {
+                return (
+                    <div key={index} className={'col-4 meta_term_item'}>
+                        {term}
+                    </div>
+                );
+            });
+        }
+        return <NoneButton />;
     }
 
     renderAddTermButton(): JSX.Element {
@@ -155,23 +166,17 @@ class SearchForm extends React.Component<P, S> {
                             value={this.state.inputValue}
                             onChange={(event) => this.searchTerms(event.target.value)}
                         />
-                        {this.state.foundTerms.length > 0 && this.createSearchResultsLists()}
+                        {this.createSearchResultsLists()}
                     </div>
                     {this.renderAddTermButton()}
                 </form>
                 <div className={'col-6'}>
                     <h3>Parent terms:</h3>
-                    <div className="row">
-                        {this.state.foundParentTerms.length > 0 ? this.createParentTermButtons() : <NoneButton />}
-                    </div>
+                    <div className="row">{this.createParentTermButtons()}</div>
                     <h3>Child terms:</h3>
-                    <div className="row">
-                        {this.state.foundParentTerms.length > 0 ? this.createChildTermButtons() : <NoneButton />}
-                    </div>
+                    <div className="row">{this.createChildTermButtons()}</div>
                     <h3>Related terms:</h3>
-                    <div className="row">
-                        {this.state.foundParentTerms.length > 0 ? this.createRelatedTermButtons() : <NoneButton />}
-                    </div>
+                    <div className="row">{this.createRelatedTermButtons()}</div>
                 </div>
             </div>
         );
