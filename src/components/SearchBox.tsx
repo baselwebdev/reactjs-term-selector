@@ -184,7 +184,8 @@ class SearchForm extends React.Component<P, S> {
                 });
                 break;
             case 'Enter':
-                // todo: add the highlighted term to input.
+                this.searchTerms(this.state.foundTerms[this.state.highlightedTermIndex]);
+                this.setState({ showResultList: false });
                 break;
             default:
                 break;
@@ -200,7 +201,7 @@ class SearchForm extends React.Component<P, S> {
     render() {
         return (
             <div className={'row'}>
-                <form autoComplete={'off'} className={'col-6'}>
+                <form autoComplete={'off'} className={'col-6'} onSubmit={(event) => event.preventDefault()}>
                     <div className={'autocomplete'}>
                         <input
                             id={'term_finder'}
