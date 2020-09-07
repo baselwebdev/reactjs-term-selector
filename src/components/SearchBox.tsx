@@ -96,7 +96,7 @@ class SearchForm extends React.Component<P, S> {
     createSearchResultsLists(): JSX.Element {
         const searchResultsList = this.state.foundTerms.map((term: string, index: number) => {
             return (
-                <div key={index}>
+                <div key={index} onClick={() => this.searchTerms(term)}>
                     <strong>{term.substr(0, this.state.inputValue.length)}</strong>
                     {term.substr(this.state.inputValue.length)}
                 </div>
