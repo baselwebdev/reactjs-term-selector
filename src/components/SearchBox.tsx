@@ -96,6 +96,22 @@ class SearchForm extends React.Component<P, S> {
         });
     }
 
+    createMetaButtons(term: string, index: number): JSX.Element {
+        return (
+            <div
+                key={index}
+                className={'col-4 meta_term_item'}
+                onClick={() => {
+                    this.searchTerms(term);
+                    this.setState({ showResultList: false });
+                }}
+            >
+                <strong>{term.substr(0, this.state.inputValue.length)}</strong>
+                {term.substr(this.state.inputValue.length)}
+            </div>
+        );
+    }
+
     createSearchResultsLists(): JSX.Element | void {
         if (this.state.showResultList && this.state.foundTerms.length > 0) {
             const searchResultsList = this.state.foundTerms.map((term: string, index: number) => {
@@ -120,18 +136,7 @@ class SearchForm extends React.Component<P, S> {
     createParentTermButtons(): JSX.Element | JSX.Element[] {
         if (this.state.foundParentTerms.length > 0) {
             return this.state.foundParentTerms.map((term: string, index: number) => {
-                return (
-                    <div
-                        key={index}
-                        className={'col-4 meta_term_item'}
-                        onClick={() => {
-                            this.searchTerms(term);
-                            this.setState({ showResultList: false });
-                        }}
-                    >
-                        {term}
-                    </div>
-                );
+                return this.createMetaButtons(term, index);
             });
         }
         return <NoneButton />;
@@ -140,18 +145,7 @@ class SearchForm extends React.Component<P, S> {
     createChildTermButtons(): JSX.Element | JSX.Element[] {
         if (this.state.foundChildTerms.length > 0) {
             return this.state.foundChildTerms.map((term: string, index: number) => {
-                return (
-                    <div
-                        key={index}
-                        className={'col-4 meta_term_item'}
-                        onClick={() => {
-                            this.searchTerms(term);
-                            this.setState({ showResultList: false });
-                        }}
-                    >
-                        {term}
-                    </div>
-                );
+                return this.createMetaButtons(term, index);
             });
         }
         return <NoneButton />;
@@ -160,18 +154,7 @@ class SearchForm extends React.Component<P, S> {
     createRelatedTermButtons(): JSX.Element | JSX.Element[] {
         if (this.state.foundRelatedTerms.length > 0) {
             return this.state.foundRelatedTerms.map((term: string, index: number) => {
-                return (
-                    <div
-                        key={index}
-                        className={'col-4 meta_term_item'}
-                        onClick={() => {
-                            this.searchTerms(term);
-                            this.setState({ showResultList: false });
-                        }}
-                    >
-                        {term}
-                    </div>
-                );
+                return this.createMetaButtons(term, index);
             });
         }
         return <NoneButton />;
