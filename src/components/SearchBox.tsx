@@ -16,6 +16,7 @@ export interface P {
 
 export interface S {
     inputValue: string;
+    foundSearchedTerm: string | boolean;
     foundTerms: string[];
     foundParentTerms: string[];
     foundChildTerms: string[];
@@ -30,6 +31,7 @@ class SearchForm extends React.Component<P, S> {
         this.Terms = SubjectMatter;
         this.state = {
             inputValue: props.value,
+            foundSearchedTerm: false,
             foundTerms: [],
             foundParentTerms: [],
             foundChildTerms: [],
@@ -48,6 +50,7 @@ class SearchForm extends React.Component<P, S> {
         this.setState({
             inputValue: SearchString,
             foundTerms: [],
+            foundSearchedTerm: false,
             foundParentTerms: [],
             foundChildTerms: [],
             foundRelatedTerms: [],
@@ -56,6 +59,7 @@ class SearchForm extends React.Component<P, S> {
 
     findTermItem(SearchString: string): void {
         const FoundTerms = [];
+        let FoundSearchedTerm: string | boolean = false;
         let FoundParentTerms: string[] = [];
         let FoundChildTerms: string[] = [];
         let FoundRelatedTerms: string[] = [];
@@ -65,6 +69,8 @@ class SearchForm extends React.Component<P, S> {
             if (this.Terms[i].Name.substr(0, SearchString.length).toUpperCase() === SearchString.toUpperCase()) {
                 FoundTerms.push(this.Terms[i].Name);
                 if (this.Terms[i].Name.toUpperCase() === SearchString.toUpperCase()) {
+                    SearchString = this.Terms[i].Name;
+                    FoundSearchedTerm = this.Terms[i].Name;
                     FoundParentTerms = this.Terms[i].ParentTerms.map((pt: string) => {
                         return pt;
                     });
@@ -78,7 +84,9 @@ class SearchForm extends React.Component<P, S> {
             }
         }
         this.setState({
+            inputValue: SearchString,
             foundTerms: FoundTerms,
+            foundSearchedTerm: FoundSearchedTerm,
             foundParentTerms: FoundParentTerms,
             foundChildTerms: FoundChildTerms,
             foundRelatedTerms: FoundRelatedTerms,
@@ -128,6 +136,13 @@ class SearchForm extends React.Component<P, S> {
         });
     }
 
+    renderAddTermButton(): JSX.Element {
+        if (this.state.foundSearchedTerm === false) {
+            return <input type={'submit'} value={'Add'} disabled />;
+        }
+        return <input type={'submit'} value={'Add'} />;
+    }
+
     render() {
         return (
             <div className={'row'}>
@@ -142,7 +157,7 @@ class SearchForm extends React.Component<P, S> {
                         />
                         {this.state.foundTerms.length > 0 && this.createSearchResultsLists()}
                     </div>
-                    <input type={'submit'} value={'Add'} disabled />
+                    {this.renderAddTermButton()}
                 </form>
                 <div className={'col-6'}>
                     <h3>Parent terms:</h3>
