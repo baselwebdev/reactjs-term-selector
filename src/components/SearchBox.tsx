@@ -87,7 +87,12 @@ class SearchForm extends React.Component<P, S> {
 
     createSearchResultsLists(): JSX.Element {
         const searchResultsList = this.state.foundTerms.map((term: string, index: number) => {
-            return <div key={index}>{term}</div>;
+            return (
+                <div key={index}>
+                    <strong>{term.substr(0, this.state.inputValue.length)}</strong>
+                    {term.substr(this.state.inputValue.length)}
+                </div>
+            );
         });
 
         return <div className={'autocomplete-items'}>{searchResultsList}</div>;
