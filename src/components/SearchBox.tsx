@@ -18,7 +18,7 @@ export interface S {
     inputValue: string;
     showResultList: boolean;
     foundSearchedTerm: string | boolean;
-    highlightedTerm: number;
+    highlightedTermIndex: number;
     foundTerms: string[];
     foundParentTerms: string[];
     foundChildTerms: string[];
@@ -35,7 +35,7 @@ class SearchForm extends React.Component<P, S> {
             inputValue: props.value,
             showResultList: true,
             foundSearchedTerm: false,
-            highlightedTerm: -1,
+            highlightedTermIndex: -1,
             foundTerms: [],
             foundParentTerms: [],
             foundChildTerms: [],
@@ -91,12 +91,34 @@ class SearchForm extends React.Component<P, S> {
             inputValue: SearchString,
             foundTerms: FoundTerms,
             showResultList: true,
-            highlightedTerm: -1,
+            highlightedTermIndex: -1,
             foundSearchedTerm: FoundSearchedTerm,
             foundParentTerms: FoundParentTerms,
             foundChildTerms: FoundChildTerms,
             foundRelatedTerms: FoundRelatedTerms,
         });
+    }
+
+    createSearchResultsLists(): JSX.Element | void {
+        if (this.state.showResultList && this.state.foundTerms.length > 0) {
+            const searchResultsList = this.state.foundTerms.map((term: string, index: number) => {
+                return (
+                    <div
+                        key={index}
+                        onClick={() => {
+                            this.searchTerms(term);
+                            this.setState({ showResultList: false });
+                        }}
+                        className={this.highLightFoundTermList(index)}
+                    >
+                        <strong>{term.substr(0, this.state.inputValue.length)}</strong>
+                        {term.substr(this.state.inputValue.length)}
+                    </div>
+                );
+            });
+
+            return <div className={'autocomplete-items'}>{searchResultsList}</div>;
+        }
     }
 
     createMetaButtons(term: string, index: number): JSX.Element {
@@ -113,28 +135,6 @@ class SearchForm extends React.Component<P, S> {
                 {term.substr(this.state.inputValue.length)}
             </div>
         );
-    }
-
-    createSearchResultsLists(): JSX.Element | void {
-        if (this.state.showResultList && this.state.foundTerms.length > 0) {
-            const searchResultsList = this.state.foundTerms.map((term: string, index: number) => {
-                return (
-                    <div
-                        key={index}
-                        onClick={() => {
-                            this.searchTerms(term);
-                            this.setState({ showResultList: false });
-                        }}
-                        className={this.state.highlightedTerm === index ? 'autocomplete-active' : ''}
-                    >
-                        <strong>{term.substr(0, this.state.inputValue.length)}</strong>
-                        {term.substr(this.state.inputValue.length)}
-                    </div>
-                );
-            });
-
-            return <div className={'autocomplete-items'}>{searchResultsList}</div>;
-        }
     }
 
     createParentTermButtons(): JSX.Element | JSX.Element[] {
@@ -175,16 +175,25 @@ class SearchForm extends React.Component<P, S> {
         switch (key) {
             case 'ArrowDown':
                 this.setState({
-                    highlightedTerm: this.state.highlightedTerm + 1,
+                    highlightedTermIndex: this.state.highlightedTermIndex + 1,
                 });
                 break;
             case 'ArrowUp':
                 this.setState({
-                    highlightedTerm: this.state.highlightedTerm - 1,
+                    highlightedTermIndex: this.state.highlightedTermIndex - 1,
                 });
+                break;
+            case 'Enter':
+                // todo: add the highlighted term to input.
                 break;
             default:
                 break;
+        }
+    }
+
+    highLightFoundTermList(index: number): string | undefined {
+        if (this.state.highlightedTermIndex === index) {
+            return 'autocomplete-active';
         }
     }
 
