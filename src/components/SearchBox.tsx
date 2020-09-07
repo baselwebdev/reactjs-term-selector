@@ -18,6 +18,7 @@ export interface S {
     inputValue: string;
     showResultList: boolean;
     foundSearchedTerm: string | boolean;
+    highlightedTerm: number;
     foundTerms: string[];
     foundParentTerms: string[];
     foundChildTerms: string[];
@@ -34,6 +35,7 @@ class SearchForm extends React.Component<P, S> {
             inputValue: props.value,
             showResultList: true,
             foundSearchedTerm: false,
+            highlightedTerm: -1,
             foundTerms: [],
             foundParentTerms: [],
             foundChildTerms: [],
@@ -89,6 +91,7 @@ class SearchForm extends React.Component<P, S> {
             inputValue: SearchString,
             foundTerms: FoundTerms,
             showResultList: true,
+            highlightedTerm: -1,
             foundSearchedTerm: FoundSearchedTerm,
             foundParentTerms: FoundParentTerms,
             foundChildTerms: FoundChildTerms,
@@ -122,6 +125,7 @@ class SearchForm extends React.Component<P, S> {
                             this.searchTerms(term);
                             this.setState({ showResultList: false });
                         }}
+                        className={this.state.highlightedTerm === index ? 'autocomplete-active' : ''}
                     >
                         <strong>{term.substr(0, this.state.inputValue.length)}</strong>
                         {term.substr(this.state.inputValue.length)}
@@ -167,6 +171,23 @@ class SearchForm extends React.Component<P, S> {
         return <input type={'submit'} value={'Add'} />;
     }
 
+    selectTerm(key: string): void {
+        switch (key) {
+            case 'ArrowDown':
+                this.setState({
+                    highlightedTerm: this.state.highlightedTerm + 1,
+                });
+                break;
+            case 'ArrowUp':
+                this.setState({
+                    highlightedTerm: this.state.highlightedTerm - 1,
+                });
+                break;
+            default:
+                break;
+        }
+    }
+
     render() {
         return (
             <div className={'row'}>
@@ -178,6 +199,7 @@ class SearchForm extends React.Component<P, S> {
                             placeholder="Terms"
                             value={this.state.inputValue}
                             onChange={(event) => this.searchTerms(event.target.value)}
+                            onKeyDown={(event) => this.selectTerm(event.key)}
                         />
                         {this.createSearchResultsLists()}
                     </div>
