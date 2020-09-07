@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import SubjectMatter from '../data/thesaurus.json';
 import NoneButton from './NoneButton';
 
-export interface SubjectMatterTerm {
+interface SubjectMatterTerm {
     Name: string;
     ParentTerms: string[];
     RelatedTerms: string[];
@@ -10,11 +10,11 @@ export interface SubjectMatterTerm {
     TermId: string;
 }
 
-export interface P {
+interface P {
     value: string;
 }
 
-export interface S {
+interface S {
     inputValue: string;
     showResultList: boolean;
     foundSearchedTerm: string | boolean;
@@ -109,7 +109,7 @@ class SearchForm extends React.Component<P, S> {
                             this.searchTerms(term);
                             this.setState({ showResultList: false });
                         }}
-                        className={this.highLightFoundTermList(index)}
+                        {...this.highLightFoundTermList(index)}
                     >
                         <strong>{term.substr(0, this.state.inputValue.length)}</strong>
                         {term.substr(this.state.inputValue.length)}
@@ -192,10 +192,11 @@ class SearchForm extends React.Component<P, S> {
         }
     }
 
-    highLightFoundTermList(index: number): string | undefined {
+    highLightFoundTermList(index: number): HTMLAttributes<HTMLDivElement> {
         if (this.state.highlightedTermIndex === index) {
-            return 'autocomplete-active';
+            return { className: 'autocomplete-active' };
         }
+        return { className: 'autocomplete-inactive' };
     }
 
     render() {
