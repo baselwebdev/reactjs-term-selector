@@ -16,6 +16,7 @@ export interface P {
 
 export interface S {
     inputValue: string;
+    showResultList: boolean;
     foundSearchedTerm: string | boolean;
     foundTerms: string[];
     foundParentTerms: string[];
@@ -31,6 +32,7 @@ class SearchForm extends React.Component<P, S> {
         this.Terms = SubjectMatter;
         this.state = {
             inputValue: props.value,
+            showResultList: true,
             foundSearchedTerm: false,
             foundTerms: [],
             foundParentTerms: [],
@@ -86,6 +88,7 @@ class SearchForm extends React.Component<P, S> {
         this.setState({
             inputValue: SearchString,
             foundTerms: FoundTerms,
+            showResultList: true,
             foundSearchedTerm: FoundSearchedTerm,
             foundParentTerms: FoundParentTerms,
             foundChildTerms: FoundChildTerms,
@@ -94,10 +97,16 @@ class SearchForm extends React.Component<P, S> {
     }
 
     createSearchResultsLists(): JSX.Element | void {
-        if (this.state.foundTerms.length > 0) {
+        if (this.state.showResultList && this.state.foundTerms.length > 0) {
             const searchResultsList = this.state.foundTerms.map((term: string, index: number) => {
                 return (
-                    <div key={index} onClick={() => this.searchTerms(term)}>
+                    <div
+                        key={index}
+                        onClick={() => {
+                            this.searchTerms(term);
+                            this.setState({ showResultList: false });
+                        }}
+                    >
                         <strong>{term.substr(0, this.state.inputValue.length)}</strong>
                         {term.substr(this.state.inputValue.length)}
                     </div>
