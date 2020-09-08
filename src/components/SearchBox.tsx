@@ -181,8 +181,8 @@ class SearchForm extends React.Component<P, S> {
         return <NoneButton />;
     }
 
-    renderAddTermButton(): JSX.Element {
-        if (this.state.foundSearchedTerm === false) {
+    createAddTermButton(): JSX.Element {
+        if (!this.isNewTerm() || this.state.foundSearchedTerm === false) {
             return <input type={'submit'} value={'Add'} disabled />;
         }
         return <input type={'submit'} value={'Add'} onClick={() => this.addTerm()} />;
@@ -229,6 +229,10 @@ class SearchForm extends React.Component<P, S> {
         return { className: 'autocomplete-inactive' };
     }
 
+    isNewTerm(): boolean {
+        return !this.state.selectedTerms?.Terms.some((term) => term.TermId === this.state.termId);
+    }
+
     render(): React.ReactNode {
         return (
             <div className={'row'}>
@@ -244,7 +248,7 @@ class SearchForm extends React.Component<P, S> {
                         />
                         {this.createSearchResultsLists()}
                     </div>
-                    {this.renderAddTermButton()}
+                    {this.createAddTermButton()}
                 </form>
                 <div className={'col-6'}>
                     <h3>Parent terms:</h3>
