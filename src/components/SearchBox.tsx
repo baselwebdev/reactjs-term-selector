@@ -14,8 +14,19 @@ interface P {
     value: string;
 }
 
+interface Term {
+    Name: string;
+    TermId: string;
+}
+
+interface SelectedTerms {
+    Terms: Term[];
+}
+
 interface S {
     inputValue: string;
+    selectedTerms: SelectedTerms | undefined;
+    termId: string | boolean;
     showResultList: boolean;
     foundSearchedTerm: string | boolean;
     highlightedTermIndex: number;
@@ -33,6 +44,8 @@ class SearchForm extends React.Component<P, S> {
         this.Terms = SubjectMatter;
         this.state = {
             inputValue: props.value,
+            selectedTerms: { Terms: [] },
+            termId: false,
             showResultList: true,
             foundSearchedTerm: false,
             highlightedTermIndex: -1,
@@ -54,6 +67,7 @@ class SearchForm extends React.Component<P, S> {
         this.setState({
             inputValue: SearchString,
             foundTerms: [],
+            termId: false,
             foundSearchedTerm: false,
             foundParentTerms: [],
             foundChildTerms: [],
@@ -63,17 +77,19 @@ class SearchForm extends React.Component<P, S> {
 
     findTermItem(SearchString: string): void {
         const FoundTerms = [];
+        let TermId: string | boolean = false;
         let FoundSearchedTerm: string | boolean = false;
         let FoundParentTerms: string[] = [];
         let FoundChildTerms: string[] = [];
         let FoundRelatedTerms: string[] = [];
         const TermsCount = this.Terms.length;
         for (let i = 0; i < TermsCount; i++) {
-            // todo: Using search string instead of state. Using state its not updated to latest search string.
             if (this.Terms[i].Name.substr(0, SearchString.length).toUpperCase() === SearchString.toUpperCase()) {
                 FoundTerms.push(this.Terms[i].Name);
+                // Exact match found
                 if (this.Terms[i].Name.toUpperCase() === SearchString.toUpperCase()) {
                     SearchString = this.Terms[i].Name;
+                    TermId = this.Terms[i].TermId;
                     FoundSearchedTerm = this.Terms[i].Name;
                     FoundParentTerms = this.Terms[i].ParentTerms.map((pt: string) => {
                         return pt;
@@ -89,6 +105,7 @@ class SearchForm extends React.Component<P, S> {
         }
         this.setState({
             inputValue: SearchString,
+            termId: TermId,
             foundTerms: FoundTerms,
             showResultList: true,
             highlightedTermIndex: -1,
@@ -168,7 +185,20 @@ class SearchForm extends React.Component<P, S> {
         if (this.state.foundSearchedTerm === false) {
             return <input type={'submit'} value={'Add'} disabled />;
         }
-        return <input type={'submit'} value={'Add'} />;
+        return <input type={'submit'} value={'Add'} onClick={() => this.addTerm()} />;
+    }
+
+    addTerm(): void {
+        const NetTerm: Term = {
+            Name: this.state.inputValue,
+            TermId: this.state.termId as string,
+        };
+        const CurrentSelectedTerms = this.state.selectedTerms;
+        if (CurrentSelectedTerms?.Terms !== undefined && CurrentSelectedTerms?.Terms.push(NetTerm) > 0) {
+            this.setState({
+                selectedTerms: CurrentSelectedTerms,
+            });
+        }
     }
 
     selectTerm(key: string): void {
@@ -199,7 +229,7 @@ class SearchForm extends React.Component<P, S> {
         return { className: 'autocomplete-inactive' };
     }
 
-    render() {
+    render(): React.ReactNode {
         return (
             <div className={'row'}>
                 <form autoComplete={'off'} className={'col-6'} onSubmit={(event) => event.preventDefault()}>
