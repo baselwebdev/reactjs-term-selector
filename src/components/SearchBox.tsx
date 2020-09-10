@@ -25,7 +25,7 @@ interface SelectedTerms {
 
 interface S {
     inputValue: string;
-    selectedTerms: SelectedTerms | undefined;
+    selectedTerms: SelectedTerms;
     termId: string | boolean;
     showResultList: boolean;
     foundSearchedTerm: string | boolean;
@@ -193,7 +193,7 @@ class SearchForm extends React.Component<P, S> {
             TermId: this.state.termId as string,
         };
         const CurrentSelectedTerms = this.state.selectedTerms;
-        if (CurrentSelectedTerms?.Terms !== undefined && CurrentSelectedTerms?.Terms.push(NetTerm) > 0) {
+        if (CurrentSelectedTerms.Terms.push(NetTerm) > 0) {
             this.setState({
                 selectedTerms: CurrentSelectedTerms,
             });
@@ -229,13 +229,13 @@ class SearchForm extends React.Component<P, S> {
     }
 
     isNewTerm(): boolean {
-        return !this.state.selectedTerms?.Terms.some((term) => term.TermId === this.state.termId);
+        return !this.state.selectedTerms.Terms.some((term) => term.TermId === this.state.termId);
     }
 
     createSelectedTermsList(): JSX.Element | JSX.Element[] {
         let SelectedTermsList: JSX.Element | JSX.Element[];
-        if (this.state.selectedTerms !== undefined) {
-            SelectedTermsList = this.state.selectedTerms?.Terms.map(
+        if (this.state.selectedTerms.Terms.length > 0) {
+            SelectedTermsList = this.state.selectedTerms.Terms.map(
                 (item: Term, index: number): JSX.Element => {
                     return (
                         <div
@@ -261,15 +261,13 @@ class SearchForm extends React.Component<P, S> {
     }
 
     removeSelectedTerm(TermId: string): void {
-        if (this.state.selectedTerms?.Terms !== undefined) {
-            if (this.state.selectedTerms?.Terms.some((term) => term.TermId === TermId)) {
-                const Index = this.state.selectedTerms?.Terms.findIndex((term) => term.TermId === TermId);
-                const CurrentSelectedTerms = this.state.selectedTerms;
-                CurrentSelectedTerms.Terms.splice(Index, 1);
-                this.setState({
-                    selectedTerms: CurrentSelectedTerms,
-                });
-            }
+        if (this.state.selectedTerms.Terms.some((term) => term.TermId === TermId)) {
+            const Index = this.state.selectedTerms.Terms.findIndex((term) => term.TermId === TermId);
+            const CurrentSelectedTerms = this.state.selectedTerms;
+            CurrentSelectedTerms.Terms.splice(Index, 1);
+            this.setState({
+                selectedTerms: CurrentSelectedTerms,
+            });
         }
     }
 
