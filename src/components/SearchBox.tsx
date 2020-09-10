@@ -238,14 +238,19 @@ class SearchForm extends React.Component<P, S> {
             SelectedTermsList = this.state.selectedTerms?.Terms.map(
                 (item: Term, index: number): JSX.Element => {
                     return (
-                        <input
+                        <div
                             key={index}
-                            type={'button'}
                             className={'col-4 meta_term_item'}
-                            id={item.TermId}
-                            value={item.Name}
-                            onClick={(event) => this.removeSelectedTerm(event.currentTarget.id)}
-                        />
+                            {...{ termid: item.TermId }}
+                            onClick={(event) => {
+                                const TermId = event.currentTarget.attributes.getNamedItem('termid')?.value;
+                                if (TermId !== undefined) {
+                                    this.removeSelectedTerm(TermId);
+                                }
+                            }}
+                        >
+                            {item.Name}
+                        </div>
                     );
                 },
             );
