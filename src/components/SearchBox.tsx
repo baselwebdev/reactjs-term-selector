@@ -182,9 +182,9 @@ class SearchForm extends React.Component<P, S> {
 
     createAddTermButton(): JSX.Element {
         if (!this.isNewTerm() || this.state.foundSearchedTerm === false) {
-            return <input type={'submit'} value={'Add'} disabled />;
+            return <input type={'button'} value={'Add'} disabled />;
         }
-        return <input type={'submit'} value={'Add'} onClick={() => this.addTerm()} />;
+        return <input type={'button'} value={'Add'} onClick={() => this.addTerm()} />;
     }
 
     addTerm(): void {
@@ -236,11 +236,16 @@ class SearchForm extends React.Component<P, S> {
         let SelectedTermsList: JSX.Element | JSX.Element[];
         if (this.state.selectedTerms !== undefined) {
             SelectedTermsList = this.state.selectedTerms?.Terms.map(
-                (term: Term, index: number): JSX.Element => {
+                (item: Term, index: number): JSX.Element => {
                     return (
-                        <div key={index} className={'col-4 meta_term_item'}>
-                            {term.Name}
-                        </div>
+                        <input
+                            key={index}
+                            type={'button'}
+                            className={'col-4 meta_term_item'}
+                            id={item.TermId}
+                            value={item.Name}
+                            onClick={(event) => this.removeSelectedTerm(event.currentTarget.id)}
+                        />
                     );
                 },
             );
@@ -250,10 +255,23 @@ class SearchForm extends React.Component<P, S> {
         return SelectedTermsList;
     }
 
+    removeSelectedTerm(TermId: string): void {
+        if (this.state.selectedTerms?.Terms !== undefined) {
+            if (this.state.selectedTerms?.Terms.some((term) => term.TermId === TermId)) {
+                const Index = this.state.selectedTerms?.Terms.findIndex((term) => term.TermId === TermId);
+                const CurrentSelectedTerms = this.state.selectedTerms;
+                CurrentSelectedTerms.Terms.splice(Index, 1);
+                this.setState({
+                    selectedTerms: CurrentSelectedTerms,
+                });
+            }
+        }
+    }
+
     render(): React.ReactNode {
         return (
             <div className={'row'}>
-                <form autoComplete={'off'} className={'col-6'} onSubmit={(event) => event.preventDefault()}>
+                <form autoComplete={'off'} className={'col-6'}>
                     <div className={'autocomplete'}>
                         <input
                             id={'term_finder'}
