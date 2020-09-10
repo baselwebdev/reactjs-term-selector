@@ -148,8 +148,7 @@ class SearchForm extends React.Component<P, S> {
                     this.setState({ showResultList: false });
                 }}
             >
-                <strong>{term.substr(0, this.state.inputValue.length)}</strong>
-                {term.substr(this.state.inputValue.length)}
+                {term}
             </div>
         );
     }
@@ -233,6 +232,24 @@ class SearchForm extends React.Component<P, S> {
         return !this.state.selectedTerms?.Terms.some((term) => term.TermId === this.state.termId);
     }
 
+    createSelectedTermsList(): JSX.Element | JSX.Element[] {
+        let SelectedTermsList: JSX.Element | JSX.Element[];
+        if (this.state.selectedTerms !== undefined) {
+            SelectedTermsList = this.state.selectedTerms?.Terms.map(
+                (term: Term, index: number): JSX.Element => {
+                    return (
+                        <div key={index} className={'col-4 meta_term_item'}>
+                            {term.Name}
+                        </div>
+                    );
+                },
+            );
+        } else {
+            SelectedTermsList = <NoneButton />;
+        }
+        return SelectedTermsList;
+    }
+
     render(): React.ReactNode {
         return (
             <div className={'row'}>
@@ -251,6 +268,8 @@ class SearchForm extends React.Component<P, S> {
                     {this.createAddTermButton()}
                 </form>
                 <div className={'col-6'}>
+                    <h3>Selected terms:</h3>
+                    <div className="row">{this.createSelectedTermsList()}</div>
                     <h3>Parent terms:</h3>
                     <div className="row">{this.createParentTermButtons()}</div>
                     <h3>Child terms:</h3>
