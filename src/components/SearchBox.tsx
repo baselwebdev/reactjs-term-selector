@@ -188,14 +188,15 @@ class SearchForm extends React.Component<P, S> {
     }
 
     addTerm(): void {
-        const NetTerm: Term = {
+        const NewTerm: Term = {
             Name: this.state.inputValue,
             TermId: this.state.termId as string,
         };
         const CurrentSelectedTerms = this.state.selectedTerms;
-        if (CurrentSelectedTerms.Terms.push(NetTerm) > 0) {
+        if (CurrentSelectedTerms.Terms.push(NewTerm) > 0) {
             this.setState({
                 selectedTerms: CurrentSelectedTerms,
+                showResultList: false,
             });
         }
     }
@@ -278,6 +279,7 @@ class SearchForm extends React.Component<P, S> {
                 <div className="row">{this.createSelectedTermsList()}</div>
                 <form autoComplete={'off'} className={'col-6'}>
                     <div className={'autocomplete'}>
+                        <h3>Search terms:</h3>
                         <input
                             id={'term_finder'}
                             type={'text'}
