@@ -1,6 +1,7 @@
 import React, { HTMLAttributes } from 'react';
 import SubjectMatter from '../data/thesaurus.json';
 import NoneButton from './NoneButton';
+import MetaTermList from './MetaTermList';
 
 interface SubjectMatterTerm {
     Name: string;
@@ -8,10 +9,6 @@ interface SubjectMatterTerm {
     RelatedTerms: string[];
     ChildTerms: string[];
     TermId: string;
-}
-
-interface P {
-    value: string;
 }
 
 interface Term {
@@ -22,6 +19,8 @@ interface Term {
 interface SelectedTerms {
     Terms: Term[];
 }
+
+interface P {}
 
 interface S {
     inputValue: string;
@@ -43,7 +42,7 @@ class SearchForm extends React.Component<P, S> {
         super(props);
         this.Terms = SubjectMatter;
         this.state = {
-            inputValue: props.value,
+            inputValue: '',
             selectedTerms: { Terms: [] },
             termId: false,
             showResultList: true,
@@ -54,6 +53,8 @@ class SearchForm extends React.Component<P, S> {
             foundChildTerms: [],
             foundRelatedTerms: [],
         };
+
+        this.handleMetaTermClick = this.handleMetaTermClick.bind(this);
     }
 
     searchTerms(SearchString: string): void {
@@ -136,48 +137,6 @@ class SearchForm extends React.Component<P, S> {
 
             return <div className={'autocomplete-items'}>{searchResultsList}</div>;
         }
-    }
-
-    createMetaButtons(term: string, index: number): JSX.Element {
-        return (
-            <div
-                key={index}
-                className={'col-4 meta_term_item'}
-                onClick={() => {
-                    this.searchTerms(term);
-                    this.setState({ showResultList: false });
-                }}
-            >
-                {term}
-            </div>
-        );
-    }
-
-    createParentTermButtons(): JSX.Element | JSX.Element[] {
-        if (this.state.foundParentTerms.length > 0) {
-            return this.state.foundParentTerms.map((term: string, index: number) => {
-                return this.createMetaButtons(term, index);
-            });
-        }
-        return <NoneButton />;
-    }
-
-    createChildTermButtons(): JSX.Element | JSX.Element[] {
-        if (this.state.foundChildTerms.length > 0) {
-            return this.state.foundChildTerms.map((term: string, index: number) => {
-                return this.createMetaButtons(term, index);
-            });
-        }
-        return <NoneButton />;
-    }
-
-    createRelatedTermButtons(): JSX.Element | JSX.Element[] {
-        if (this.state.foundRelatedTerms.length > 0) {
-            return this.state.foundRelatedTerms.map((term: string, index: number) => {
-                return this.createMetaButtons(term, index);
-            });
-        }
-        return <NoneButton />;
     }
 
     createAddTermButton(): JSX.Element {
@@ -272,6 +231,11 @@ class SearchForm extends React.Component<P, S> {
         }
     }
 
+    handleMetaTermClick(term: string): void {
+        this.searchTerms(term);
+        this.setState({ showResultList: false });
+    }
+
     render(): React.ReactNode {
         return (
             <div className={'row'}>
@@ -292,14 +256,12 @@ class SearchForm extends React.Component<P, S> {
                     </div>
                     {this.createAddTermButton()}
                 </form>
-                <div className={'col-6'}>
-                    <h3>Parent terms:</h3>
-                    <div className="row">{this.createParentTermButtons()}</div>
-                    <h3>Child terms:</h3>
-                    <div className="row">{this.createChildTermButtons()}</div>
-                    <h3>Related terms:</h3>
-                    <div className="row">{this.createRelatedTermButtons()}</div>
-                </div>
+                <MetaTermList
+                    onClick={this.handleMetaTermClick}
+                    foundParentTerms={this.state.foundParentTerms}
+                    foundChildTerms={this.state.foundChildTerms}
+                    foundRelatedTerms={this.state.foundRelatedTerms}
+                />
             </div>
         );
     }
