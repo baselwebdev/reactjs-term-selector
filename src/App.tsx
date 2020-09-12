@@ -7,7 +7,6 @@ class App extends React.Component {
         // todo: check for status before rendering the elements with status
         return (
             <main>
-                <h3>Selected terms:</h3>
                 <SearchForm value={''} />
             </main>
         );

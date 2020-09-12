@@ -10,7 +10,7 @@ input {
     background-color: #f1f1f1;
     width: 100%;
   }
-  &[type=submit] {
+  &[type=button] {
     width: 80px;
     background-color: Variables.$blue;
     color: #fff;

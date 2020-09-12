@@ -2,7 +2,7 @@ import React from 'react';
 
 class NoneButton extends React.Component {
     render(): React.ReactNode {
-        return <div className={'no_term_items col-3'}>None</div>;
+        return <div className={'col-3 no_term_items'}>None</div>;
     }
 }
 

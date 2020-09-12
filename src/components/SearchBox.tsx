@@ -274,6 +274,8 @@ class SearchForm extends React.Component<P, S> {
     render(): React.ReactNode {
         return (
             <div className={'row'}>
+                <h3>Selected terms:</h3>
+                <div className="row">{this.createSelectedTermsList()}</div>
                 <form autoComplete={'off'} className={'col-6'}>
                     <div className={'autocomplete'}>
                         <input
@@ -289,8 +291,6 @@ class SearchForm extends React.Component<P, S> {
                     {this.createAddTermButton()}
                 </form>
                 <div className={'col-6'}>
-                    <h3>Selected terms:</h3>
-                    <div className="row">{this.createSelectedTermsList()}</div>
                     <h3>Parent terms:</h3>
                     <div className="row">{this.createParentTermButtons()}</div>
                     <h3>Child terms:</h3>
