@@ -2,6 +2,8 @@ import React, { HTMLAttributes } from 'react';
 import SubjectMatter from '../data/thesaurus.json';
 import NoneButton from './NoneButton';
 import MetaTermList from './MetaTermList';
+import { createStore } from 'redux';
+import reducer from '../store/reducer';
 
 interface SubjectMatterTerm {
     Name: string;
@@ -17,7 +19,7 @@ interface Term {
 }
 
 interface SelectedTerms {
-    Terms: Term[];
+    Terms: ITerm[];
 }
 
 interface P {}
@@ -41,9 +43,11 @@ class SearchForm extends React.Component<P, S> {
     constructor(props: P) {
         super(props);
         this.Terms = SubjectMatter;
+        const store = createStore(reducer);
+        const selectedTerms = store.getState();
         this.state = {
             inputValue: '',
-            selectedTerms: { Terms: [] },
+            selectedTerms: selectedTerms,
             termId: false,
             showResultList: true,
             foundSearchedTerm: false,
@@ -53,7 +57,6 @@ class SearchForm extends React.Component<P, S> {
             foundChildTerms: [],
             foundRelatedTerms: [],
         };
-
         this.handleMetaTermClick = this.handleMetaTermClick.bind(this);
     }
 

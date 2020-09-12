@@ -1,5 +1,17 @@
 /// <reference types="react-scripts" />
 
-interface Window {
-    INITIAL_REDUX_STATE: any;
+interface ITerm {
+    Name: string;
+    TermId: string;
 }
+
+type TermsState = {
+    Terms: ITerm[];
+};
+
+type TermAction = {
+    type: string;
+    term: ITerm;
+};
+
+type DispatchType = (args: TermAction) => TermAction;
