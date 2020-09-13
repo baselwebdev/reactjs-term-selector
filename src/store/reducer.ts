@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import { TermsState, ITerm, TermAction } from '../react-app-env';
 
 const initialState: TermsState = {
     Terms: [

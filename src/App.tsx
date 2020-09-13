@@ -1,17 +1,28 @@
 import React from 'react';
 import './App.css';
-import SearchForm from './components/SearchBox';
+import SearchBox from './components/SearchBox';
 import SelectedTerms from './components/SelectedTerms';
+import { createStore } from 'redux';
+import reducer from './store/reducer';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-class App extends React.Component {
+interface P {}
+
+class App extends React.Component<P> {
+    selectedTerms;
+    constructor(props: P) {
+        super(props);
+        const store = createStore(reducer, composeWithDevTools());
+        this.selectedTerms = store.getState();
+    }
+
     render(): React.ReactNode {
-        // todo: check for status before rendering the elements with status
         return (
             <main>
                 <h3>Selected terms:</h3>
-                <SelectedTerms />
+                <SelectedTerms selectedTerms={this.selectedTerms} />
                 <h3>Search terms:</h3>
-                <SearchForm />
+                <SearchBox selectedTerms={this.selectedTerms} />
             </main>
         );
     }

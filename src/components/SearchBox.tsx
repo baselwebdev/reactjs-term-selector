@@ -1,11 +1,11 @@
 import React, { HTMLAttributes } from 'react';
 import SubjectMatter from '../data/thesaurus.json';
 import MetaTermList from './MetaTermList';
-import { createStore } from 'redux';
-import reducer from '../store/reducer';
 import { ISelectedTerms, SubjectMatterTerm, ITerm } from '../react-app-env';
 
-interface P {}
+interface P {
+    selectedTerms: ISelectedTerms;
+}
 
 interface S {
     inputValue: string;
@@ -26,11 +26,9 @@ class SearchForm extends React.Component<P, S> {
     constructor(props: P) {
         super(props);
         this.Terms = SubjectMatter;
-        const store = createStore(reducer);
-        const selectedTerms = store.getState();
         this.state = {
             inputValue: '',
-            selectedTerms: selectedTerms,
+            selectedTerms: this.props.selectedTerms,
             termId: false,
             showResultList: true,
             foundSearchedTerm: false,

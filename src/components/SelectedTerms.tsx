@@ -1,10 +1,10 @@
 import React from 'react';
 import NoneButton from './NoneButton';
-import { createStore } from 'redux';
-import reducer from '../store/reducer';
 import { ISelectedTerms, ITerm } from '../react-app-env';
 
-interface P {}
+interface P {
+    selectedTerms: ISelectedTerms;
+}
 
 interface S {
     selectedTerms: ISelectedTerms;
@@ -14,11 +14,8 @@ class SelectedTerms extends React.Component<P, S> {
     constructor(props: P) {
         super(props);
 
-        const store = createStore(reducer);
-        const selectedTerms = store.getState();
-
         this.state = {
-            selectedTerms: selectedTerms,
+            selectedTerms: this.props.selectedTerms,
         };
     }
 
@@ -67,3 +64,4 @@ class SelectedTerms extends React.Component<P, S> {
 }
 
 export default SelectedTerms;
+// export default connect()(SelectedTerms);

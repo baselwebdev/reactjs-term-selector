@@ -11,10 +11,6 @@ interface P {
 interface S {}
 
 class MetaTermList extends React.Component<P, S> {
-    constructor(props: P) {
-        super(props);
-    }
-
     createMetaButtons(term: string, index: number): JSX.Element {
         return (
             <div
