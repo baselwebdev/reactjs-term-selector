@@ -1,6 +1,7 @@
 import React from 'react';
 import NoneButton from './NoneButton';
 import { ISelectedTerms, ITerm } from '../react-app-env';
+import { connect } from 'react-redux';
 
 interface P {
     selectedTerms: ISelectedTerms;
@@ -21,8 +22,8 @@ class SelectedTerms extends React.Component<P, S> {
 
     createSelectedTermsList(): JSX.Element | JSX.Element[] {
         let SelectedTermsList: JSX.Element | JSX.Element[];
-        if (this.state.selectedTerms.Terms.length > 0) {
-            SelectedTermsList = this.state.selectedTerms.Terms.map(
+        if (this.props.selectedTerms.Terms.length > 0) {
+            SelectedTermsList = this.props.selectedTerms.Terms.map(
                 (item: ITerm, index: number): JSX.Element => {
                     return (
                         <div
@@ -48,9 +49,9 @@ class SelectedTerms extends React.Component<P, S> {
     }
 
     removeSelectedTerm(TermId: string): void {
-        if (this.state.selectedTerms.Terms.some((term) => term.TermId === TermId)) {
-            const Index = this.state.selectedTerms.Terms.findIndex((term) => term.TermId === TermId);
-            const CurrentSelectedTerms = this.state.selectedTerms;
+        if (this.props.selectedTerms.Terms.some((term) => term.TermId === TermId)) {
+            const Index = this.props.selectedTerms.Terms.findIndex((term) => term.TermId === TermId);
+            const CurrentSelectedTerms = this.props.selectedTerms;
             CurrentSelectedTerms.Terms.splice(Index, 1);
             this.setState({
                 selectedTerms: CurrentSelectedTerms,
@@ -63,5 +64,10 @@ class SelectedTerms extends React.Component<P, S> {
     }
 }
 
-export default SelectedTerms;
-// export default connect()(SelectedTerms);
+function mapStateToProps(state: ISelectedTerms) {
+    return {
+        selectedTerms: state,
+    };
+}
+
+export default connect(mapStateToProps)(SelectedTerms);
