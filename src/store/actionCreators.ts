@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import { TermAction, DispatchType, ITerm } from '../react-app-env';
 
 export function addArticle(term: ITerm): (dispatch: DispatchType) => void {
     const action: TermAction = {

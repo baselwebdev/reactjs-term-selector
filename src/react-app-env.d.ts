@@ -1,17 +1,29 @@
 /// <reference types="react-scripts" />
 
-interface ITerm {
+export interface SubjectMatterTerm {
+    Name: string;
+    ParentTerms: string[];
+    RelatedTerms: string[];
+    ChildTerms: string[];
+    TermId: string;
+}
+
+export interface ITerm {
     Name: string;
     TermId: string;
 }
 
-type TermsState = {
+export type TermsState = {
     Terms: ITerm[];
 };
 
-type TermAction = {
+export type TermAction = {
     type: string;
     term: ITerm;
 };
 
-type DispatchType = (args: TermAction) => TermAction;
+export type DispatchType = (args: TermAction) => TermAction;
+
+export interface ISelectedTerms {
+    Terms: ITerm[];
+}

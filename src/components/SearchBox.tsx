@@ -1,32 +1,15 @@
 import React, { HTMLAttributes } from 'react';
 import SubjectMatter from '../data/thesaurus.json';
-import NoneButton from './NoneButton';
 import MetaTermList from './MetaTermList';
 import { createStore } from 'redux';
 import reducer from '../store/reducer';
-
-interface SubjectMatterTerm {
-    Name: string;
-    ParentTerms: string[];
-    RelatedTerms: string[];
-    ChildTerms: string[];
-    TermId: string;
-}
-
-interface Term {
-    Name: string;
-    TermId: string;
-}
-
-interface SelectedTerms {
-    Terms: ITerm[];
-}
+import { ISelectedTerms, SubjectMatterTerm, ITerm } from '../react-app-env';
 
 interface P {}
 
 interface S {
     inputValue: string;
-    selectedTerms: SelectedTerms;
+    selectedTerms: ISelectedTerms;
     termId: string | boolean;
     showResultList: boolean;
     foundSearchedTerm: string | boolean;
@@ -150,7 +133,7 @@ class SearchForm extends React.Component<P, S> {
     }
 
     addTerm(): void {
-        const NewTerm: Term = {
+        const NewTerm: ITerm = {
             Name: this.state.inputValue,
             TermId: this.state.termId as string,
         };
@@ -195,45 +178,6 @@ class SearchForm extends React.Component<P, S> {
         return !this.state.selectedTerms.Terms.some((term) => term.TermId === this.state.termId);
     }
 
-    createSelectedTermsList(): JSX.Element | JSX.Element[] {
-        let SelectedTermsList: JSX.Element | JSX.Element[];
-        if (this.state.selectedTerms.Terms.length > 0) {
-            SelectedTermsList = this.state.selectedTerms.Terms.map(
-                (item: Term, index: number): JSX.Element => {
-                    return (
-                        <div
-                            key={index}
-                            className={'col-4 meta_term_item'}
-                            {...{ termid: item.TermId }}
-                            onClick={(event) => {
-                                const TermId = event.currentTarget.attributes.getNamedItem('termid')?.value;
-                                if (TermId !== undefined) {
-                                    this.removeSelectedTerm(TermId);
-                                }
-                            }}
-                        >
-                            {item.Name}
-                        </div>
-                    );
-                },
-            );
-        } else {
-            SelectedTermsList = <NoneButton />;
-        }
-        return SelectedTermsList;
-    }
-
-    removeSelectedTerm(TermId: string): void {
-        if (this.state.selectedTerms.Terms.some((term) => term.TermId === TermId)) {
-            const Index = this.state.selectedTerms.Terms.findIndex((term) => term.TermId === TermId);
-            const CurrentSelectedTerms = this.state.selectedTerms;
-            CurrentSelectedTerms.Terms.splice(Index, 1);
-            this.setState({
-                selectedTerms: CurrentSelectedTerms,
-            });
-        }
-    }
-
     handleMetaTermClick(term: string): void {
         this.searchTerms(term);
         this.setState({ showResultList: false });
@@ -242,11 +186,8 @@ class SearchForm extends React.Component<P, S> {
     render(): React.ReactNode {
         return (
             <div className={'row'}>
-                <h3>Selected terms:</h3>
-                <div className="row">{this.createSelectedTermsList()}</div>
                 <form autoComplete={'off'} className={'col-6'}>
                     <div className={'autocomplete'}>
-                        <h3>Search terms:</h3>
                         <input
                             id={'term_finder'}
                             type={'text'}
