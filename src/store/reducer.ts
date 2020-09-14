@@ -4,12 +4,12 @@ import { TermsState, ITerm, TermAction } from '../react-app-env';
 const initialState: TermsState = {
     Terms: [
         {
-            TermId: '1',
             Name: 'Basel',
+            TermId: '1',
         },
         {
-            TermId: '2',
             Name: 'Test',
+            TermId: '2',
         },
     ],
 };

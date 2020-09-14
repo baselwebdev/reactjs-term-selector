@@ -1,11 +1,13 @@
 import React, { HTMLAttributes } from 'react';
 import SubjectMatter from '../data/thesaurus.json';
 import MetaTermList from './MetaTermList';
-import { ISelectedTerms, SubjectMatterTerm, ITerm } from '../react-app-env';
+import { ISelectedTerms, SubjectMatterTerm, ITerm, DispatchType } from '../react-app-env';
 import { connect } from 'react-redux';
+import * as ActionCreator from '../store/actionCreators';
 
 interface P {
     selectedTerms: ISelectedTerms;
+    onAdding: (dispatch: DispatchType) => void;
 }
 
 interface S {
@@ -136,7 +138,7 @@ class SearchBox extends React.Component<P, S> {
             Name: this.state.inputValue,
             TermId: this.state.termId as string,
         };
-        const CurrentSelectedTerms = this.state.selectedTerms;
+        const CurrentSelectedTerms = this.props.selectedTerms;
         if (CurrentSelectedTerms.Terms.push(NewTerm) > 0) {
             this.setState({
                 selectedTerms: CurrentSelectedTerms,
@@ -216,4 +218,8 @@ function mapStateToProps(state: ISelectedTerms) {
     };
 }
 
-export default connect(mapStateToProps)(SearchBox);
+const dispatchToProps = {
+    onAdding: ActionCreator.addTerm({ Name: 'hello', TermId: '12a31' }),
+};
+
+export default connect(mapStateToProps, dispatchToProps)(SearchBox);
