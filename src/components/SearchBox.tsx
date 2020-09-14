@@ -2,6 +2,7 @@ import React, { HTMLAttributes } from 'react';
 import SubjectMatter from '../data/thesaurus.json';
 import MetaTermList from './MetaTermList';
 import { ISelectedTerms, SubjectMatterTerm, ITerm } from '../react-app-env';
+import { connect } from 'react-redux';
 
 interface P {
     selectedTerms: ISelectedTerms;
@@ -20,7 +21,7 @@ interface S {
     foundRelatedTerms: string[];
 }
 
-class SearchForm extends React.Component<P, S> {
+class SearchBox extends React.Component<P, S> {
     Terms: SubjectMatterTerm[];
 
     constructor(props: P) {
@@ -209,4 +210,10 @@ class SearchForm extends React.Component<P, S> {
     }
 }
 
-export default SearchForm;
+function mapStateToProps(state: ISelectedTerms) {
+    return {
+        selectedTerms: state,
+    };
+}
+
+export default connect(mapStateToProps)(SearchBox);

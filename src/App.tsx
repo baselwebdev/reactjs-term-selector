@@ -22,12 +22,12 @@ class App extends React.Component<P> {
     render(): React.ReactNode {
         return (
             <main>
-                <h3>Selected terms:</h3>
                 <Provider store={this.store}>
+                    <h3>Selected terms:</h3>
                     <SelectedTerms />
+                    <h3>Search terms:</h3>
+                    <SearchBox />
                 </Provider>
-                <h3>Search terms:</h3>
-                <SearchBox selectedTerms={this.selectedTerms} />
             </main>
         );
     }

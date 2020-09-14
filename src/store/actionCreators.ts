@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 import { TermAction, DispatchType, ITerm } from '../react-app-env';
 
-export function addArticle(term: ITerm): (dispatch: DispatchType) => void {
+export function addTerm(term: ITerm): (dispatch: DispatchType) => void {
     const action: TermAction = {
         type: actionTypes.ADD_TERM,
         term,
@@ -10,7 +10,7 @@ export function addArticle(term: ITerm): (dispatch: DispatchType) => void {
     return simulateHttpRequest(action);
 }
 
-export function removeArticle(term: ITerm): (dispatch: DispatchType) => void {
+export function removeTerm(term: ITerm): (dispatch: DispatchType) => void {
     const action: TermAction = {
         type: actionTypes.REMOVE_TERM,
         term,
