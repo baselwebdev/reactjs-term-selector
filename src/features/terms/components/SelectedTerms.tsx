@@ -1,35 +1,30 @@
+import { RootState } from 'typesafe-actions';
 import React from 'react';
 import NoneButton from '../../../components/NoneButton';
-import { ISelectedTerms, ITerm } from '../../../react-app-env';
 import { connect } from 'react-redux';
+import * as selectors from '../selectors';
+import { Term } from 'MyModels';
 
-interface P {
-    selectedTerms: ISelectedTerms;
-}
+const mapStateToProps = (state: RootState) => ({
+    terms: selectors.getTerms(state.terms) as Term[],
+});
 
-interface S {
-    selectedTerms: ISelectedTerms;
-}
+type P = ReturnType<typeof mapStateToProps>;
+
+interface S {}
 
 class SelectedTerms extends React.Component<P, S> {
-    constructor(props: P) {
-        super(props);
-
-        this.state = {
-            selectedTerms: this.props.selectedTerms,
-        };
-    }
-
     createSelectedTermsList(): JSX.Element | JSX.Element[] {
         let SelectedTermsList: JSX.Element | JSX.Element[];
-        if (this.props.selectedTerms.Terms.length > 0) {
-            SelectedTermsList = this.props.selectedTerms.Terms.map(
-                (item: ITerm, index: number): JSX.Element => {
+        const terms = this.props.terms as Term[];
+        if (terms.length > 0) {
+            SelectedTermsList = terms.map(
+                (item: Term, index: number): JSX.Element => {
                     return (
                         <div
                             key={index}
                             className={'col-4 meta_term_item'}
-                            {...{ termid: item.TermId }}
+                            {...{ id: item.id }}
                             onClick={(event) => {
                                 const TermId = event.currentTarget.attributes.getNamedItem(
                                     'termid',
@@ -39,7 +34,7 @@ class SelectedTerms extends React.Component<P, S> {
                                 }
                             }}
                         >
-                            {item.Name}
+                            {item.name}
                         </div>
                     );
                 },
@@ -51,31 +46,21 @@ class SelectedTerms extends React.Component<P, S> {
     }
 
     removeSelectedTerm(TermId: string): void {
-        if (
-            this.props.selectedTerms.Terms.some(
-                (term) => term.TermId === TermId,
-            )
-        ) {
-            const Index = this.props.selectedTerms.Terms.findIndex(
-                (term) => term.TermId === TermId,
-            );
-            const CurrentSelectedTerms = this.props.selectedTerms;
-            CurrentSelectedTerms.Terms.splice(Index, 1);
-            this.setState({
-                selectedTerms: CurrentSelectedTerms,
-            });
-        }
+        // if (this.props.terms.some((term) => term.id === TermId)) {
+        //     const Index = this.props.terms.findIndex(
+        //         (term) => term.id === TermId,
+        //     );
+        //     const CurrentSelectedTerms = this.props.terms;
+        //     CurrentSelectedTerms.splice(Index, 1);
+        //     this.setState({
+        //         selectedTerms: CurrentSelectedTerms,
+        //     });
+        // }
     }
 
     render(): React.ReactNode {
         return <div className="row">{this.createSelectedTermsList()}</div>;
     }
-}
-
-function mapStateToProps(state: ISelectedTerms) {
-    return {
-        selectedTerms: state,
-    };
 }
 
 export default connect(mapStateToProps)(SelectedTerms);

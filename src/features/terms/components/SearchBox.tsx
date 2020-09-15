@@ -8,7 +8,7 @@ import {
     DispatchType,
 } from '../../../react-app-env';
 import { connect } from 'react-redux';
-import * as ActionCreator from '../../../store/actionCreators';
+// import * as ActionCreator from '../../../store/actionCreators';
 
 interface P {
     selectedTerms: ISelectedTerms;
@@ -256,7 +256,7 @@ function mapStateToProps(state: ISelectedTerms) {
 }
 
 const dispatchToProps = {
-    onAdding: ActionCreator.addTerm({ Name: 'hello', TermId: '12a31' }),
+    // onAdding: ActionCreator.addTerm({ Name: 'hello', TermId: '12a31' }),
 };
 
 export default connect(mapStateToProps, dispatchToProps)(SearchBox);
