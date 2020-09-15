@@ -1,6 +1,6 @@
 import React from 'react';
-import NoneButton from './NoneButton';
-import { ISelectedTerms, ITerm } from '../react-app-env';
+import NoneButton from '../../../components/NoneButton';
+import { ISelectedTerms, ITerm } from '../../../react-app-env';
 import { connect } from 'react-redux';
 
 interface P {
@@ -31,7 +31,9 @@ class SelectedTerms extends React.Component<P, S> {
                             className={'col-4 meta_term_item'}
                             {...{ termid: item.TermId }}
                             onClick={(event) => {
-                                const TermId = event.currentTarget.attributes.getNamedItem('termid')?.value;
+                                const TermId = event.currentTarget.attributes.getNamedItem(
+                                    'termid',
+                                )?.value;
                                 if (TermId !== undefined) {
                                     this.removeSelectedTerm(TermId);
                                 }
@@ -49,8 +51,14 @@ class SelectedTerms extends React.Component<P, S> {
     }
 
     removeSelectedTerm(TermId: string): void {
-        if (this.props.selectedTerms.Terms.some((term) => term.TermId === TermId)) {
-            const Index = this.props.selectedTerms.Terms.findIndex((term) => term.TermId === TermId);
+        if (
+            this.props.selectedTerms.Terms.some(
+                (term) => term.TermId === TermId,
+            )
+        ) {
+            const Index = this.props.selectedTerms.Terms.findIndex(
+                (term) => term.TermId === TermId,
+            );
             const CurrentSelectedTerms = this.props.selectedTerms;
             CurrentSelectedTerms.Terms.splice(Index, 1);
             this.setState({

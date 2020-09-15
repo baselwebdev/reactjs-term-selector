@@ -1,9 +1,14 @@
 import React, { HTMLAttributes } from 'react';
-import SubjectMatter from '../data/thesaurus.json';
+import SubjectMatter from '../../../data/thesaurus.json';
 import MetaTermList from './MetaTermList';
-import { ISelectedTerms, SubjectMatterTerm, ITerm, DispatchType } from '../react-app-env';
+import {
+    ISelectedTerms,
+    SubjectMatterTerm,
+    ITerm,
+    DispatchType,
+} from '../../../react-app-env';
 import { connect } from 'react-redux';
-import * as ActionCreator from '../store/actionCreators';
+import * as ActionCreator from '../../../store/actionCreators';
 
 interface P {
     selectedTerms: ISelectedTerms;
@@ -72,22 +77,36 @@ class SearchBox extends React.Component<P, S> {
         let FoundRelatedTerms: string[] = [];
         const TermsCount = this.Terms.length;
         for (let i = 0; i < TermsCount; i++) {
-            if (this.Terms[i].Name.substr(0, SearchString.length).toUpperCase() === SearchString.toUpperCase()) {
+            if (
+                this.Terms[i].Name.substr(
+                    0,
+                    SearchString.length,
+                ).toUpperCase() === SearchString.toUpperCase()
+            ) {
                 FoundTerms.push(this.Terms[i].Name);
                 // Exact match found
-                if (this.Terms[i].Name.toUpperCase() === SearchString.toUpperCase()) {
+                if (
+                    this.Terms[i].Name.toUpperCase() ===
+                    SearchString.toUpperCase()
+                ) {
                     SearchString = this.Terms[i].Name;
                     TermId = this.Terms[i].TermId;
                     FoundSearchedTerm = this.Terms[i].Name;
-                    FoundParentTerms = this.Terms[i].ParentTerms.map((pt: string) => {
-                        return pt;
-                    });
-                    FoundChildTerms = this.Terms[i].ChildTerms.map((ct: string) => {
-                        return ct;
-                    });
-                    FoundRelatedTerms = this.Terms[i].RelatedTerms.map((rt: string) => {
-                        return rt;
-                    });
+                    FoundParentTerms = this.Terms[i].ParentTerms.map(
+                        (pt: string) => {
+                            return pt;
+                        },
+                    );
+                    FoundChildTerms = this.Terms[i].ChildTerms.map(
+                        (ct: string) => {
+                            return ct;
+                        },
+                    );
+                    FoundRelatedTerms = this.Terms[i].RelatedTerms.map(
+                        (rt: string) => {
+                            return rt;
+                        },
+                    );
                 }
             }
         }
@@ -106,23 +125,29 @@ class SearchBox extends React.Component<P, S> {
 
     createSearchResultsLists(): JSX.Element | void {
         if (this.state.showResultList && this.state.foundTerms.length > 0) {
-            const searchResultsList = this.state.foundTerms.map((term: string, index: number) => {
-                return (
-                    <div
-                        key={index}
-                        onClick={() => {
-                            this.searchTerms(term);
-                            this.setState({ showResultList: false });
-                        }}
-                        {...this.highLightFoundTermList(index)}
-                    >
-                        <strong>{term.substr(0, this.state.inputValue.length)}</strong>
-                        {term.substr(this.state.inputValue.length)}
-                    </div>
-                );
-            });
+            const searchResultsList = this.state.foundTerms.map(
+                (term: string, index: number) => {
+                    return (
+                        <div
+                            key={index}
+                            onClick={() => {
+                                this.searchTerms(term);
+                                this.setState({ showResultList: false });
+                            }}
+                            {...this.highLightFoundTermList(index)}
+                        >
+                            <strong>
+                                {term.substr(0, this.state.inputValue.length)}
+                            </strong>
+                            {term.substr(this.state.inputValue.length)}
+                        </div>
+                    );
+                },
+            );
 
-            return <div className={'autocomplete-items'}>{searchResultsList}</div>;
+            return (
+                <div className={'autocomplete-items'}>{searchResultsList}</div>
+            );
         }
     }
 
@@ -130,7 +155,13 @@ class SearchBox extends React.Component<P, S> {
         if (!this.isNewTerm() || this.state.foundSearchedTerm === false) {
             return <input type={'button'} value={'Add'} disabled />;
         }
-        return <input type={'button'} value={'Add'} onClick={() => this.addTerm()} />;
+        return (
+            <input
+                type={'button'}
+                value={'Add'}
+                onClick={() => this.addTerm()}
+            />
+        );
     }
 
     addTerm(): void {
@@ -160,7 +191,9 @@ class SearchBox extends React.Component<P, S> {
                 });
                 break;
             case 'Enter':
-                this.searchTerms(this.state.foundTerms[this.state.highlightedTermIndex]);
+                this.searchTerms(
+                    this.state.foundTerms[this.state.highlightedTermIndex],
+                );
                 this.setState({ showResultList: false });
                 break;
             default:
@@ -176,7 +209,9 @@ class SearchBox extends React.Component<P, S> {
     }
 
     isNewTerm(): boolean {
-        return !this.state.selectedTerms.Terms.some((term) => term.TermId === this.state.termId);
+        return !this.state.selectedTerms.Terms.some(
+            (term) => term.TermId === this.state.termId,
+        );
     }
 
     handleMetaTermClick(term: string): void {
@@ -194,7 +229,9 @@ class SearchBox extends React.Component<P, S> {
                             type={'text'}
                             placeholder="Terms"
                             value={this.state.inputValue}
-                            onChange={(event) => this.searchTerms(event.target.value)}
+                            onChange={(event) =>
+                                this.searchTerms(event.target.value)
+                            }
                             onKeyDown={(event) => this.selectTerm(event.key)}
                         />
                         {this.createSearchResultsLists()}

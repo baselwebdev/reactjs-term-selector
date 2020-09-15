@@ -14,7 +14,10 @@ const initialState: TermsState = {
     ],
 };
 
-const reducer = (state: TermsState = initialState, action: TermAction): TermsState => {
+const reducer = (
+    state: TermsState = initialState,
+    action: TermAction,
+): TermsState => {
     switch (action.type) {
         case actionTypes.ADD_TERM: {
             const newTerm: ITerm = {
@@ -27,7 +30,9 @@ const reducer = (state: TermsState = initialState, action: TermAction): TermsSta
             };
         }
         case actionTypes.REMOVE_TERM: {
-            const updateTerms: ITerm[] = state.Terms.filter((term) => term.TermId !== action.term.TermId);
+            const updateTerms: ITerm[] = state.Terms.filter(
+                (term) => term.TermId !== action.term.TermId,
+            );
             return {
                 ...state,
                 Terms: updateTerms,

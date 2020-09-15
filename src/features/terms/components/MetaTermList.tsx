@@ -1,5 +1,5 @@
 import React from 'react';
-import NoneButton from './NoneButton';
+import NoneButton from '../../../components/NoneButton';
 
 interface P {
     onClick: (term: string) => void;
@@ -27,27 +27,33 @@ class MetaTermList extends React.Component<P, S> {
 
     createParentTermButtons(): JSX.Element | JSX.Element[] {
         if (this.props.foundParentTerms.length > 0) {
-            return this.props.foundParentTerms.map((term: string, index: number) => {
-                return this.createMetaButtons(term, index);
-            });
+            return this.props.foundParentTerms.map(
+                (term: string, index: number) => {
+                    return this.createMetaButtons(term, index);
+                },
+            );
         }
         return <NoneButton />;
     }
 
     createChildTermButtons(): JSX.Element | JSX.Element[] {
         if (this.props.foundChildTerms.length > 0) {
-            return this.props.foundChildTerms.map((term: string, index: number) => {
-                return this.createMetaButtons(term, index);
-            });
+            return this.props.foundChildTerms.map(
+                (term: string, index: number) => {
+                    return this.createMetaButtons(term, index);
+                },
+            );
         }
         return <NoneButton />;
     }
 
     createRelatedTermButtons(): JSX.Element | JSX.Element[] {
         if (this.props.foundRelatedTerms.length > 0) {
-            return this.props.foundRelatedTerms.map((term: string, index: number) => {
-                return this.createMetaButtons(term, index);
-            });
+            return this.props.foundRelatedTerms.map(
+                (term: string, index: number) => {
+                    return this.createMetaButtons(term, index);
+                },
+            );
         }
         return <NoneButton />;
     }
