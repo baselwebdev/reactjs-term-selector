@@ -8,12 +8,17 @@ import { connect } from 'react-redux';
 import * as selectors from "../selectors";
 import {Term} from "MyModels";
 import { RootState } from 'typesafe-actions';
+import * as actions from "../actions";
 
 const mapStateToProps = (state: RootState) => ({
     selectedTerms: selectors.getTerms(state.terms) as Term[],
 });
 
-type P = ReturnType<typeof mapStateToProps>;
+const dispatchProps = {
+    addTerm: actions.addTerm,
+};
+
+type P = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
 interface S {
     inputValue: string;
@@ -163,17 +168,7 @@ class SearchBox extends React.Component<P, S> {
     }
 
     addTerm(): void {
-        // const NewTerm: ITerm = {
-        //     Name: this.state.inputValue,
-        //     TermId: this.state.termId as string,
-        // };
-        // const CurrentSelectedTerms = this.props.selectedTerms;
-        // if (CurrentSelectedTerms.Terms.push(NewTerm) > 0) {
-        //     this.setState({
-        //         selectedTerms: CurrentSelectedTerms,
-        //         showResultList: false,
-        //     });
-        // }
+        this.props.addTerm(this.state.termId as string, this.state.inputValue);
     }
 
     selectTerm(key: string): void {
@@ -207,10 +202,9 @@ class SearchBox extends React.Component<P, S> {
     }
 
     isNewTerm(): boolean {
-        // return !this.state.selectedTerms.Terms.some(
-        //     (term) => term.TermId === this.state.termId,
-        // );
-        return true;
+        return !this.props.selectedTerms.some(
+            (term) => term.id === this.state.termId,
+        );
     }
 
     handleMetaTermClick(term: string): void {
@@ -248,4 +242,4 @@ class SearchBox extends React.Component<P, S> {
     }
 }
 
-export default connect(mapStateToProps)(SearchBox);
+export default connect(mapStateToProps, dispatchProps)(SearchBox);
