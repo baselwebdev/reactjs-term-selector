@@ -1,9 +1,8 @@
 import { createStore, applyMiddleware } from 'redux';
 import { createEpicMiddleware } from 'redux-observable';
 import { RootAction, RootState } from 'typesafe-actions';
-
-import { composeEnhancers } from './utils';
 import rootReducer from './root-reducer';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 export const epicMiddleware = createEpicMiddleware<
     RootAction,
@@ -14,13 +13,14 @@ export const epicMiddleware = createEpicMiddleware<
 // configure middlewares
 const middlewares = [epicMiddleware];
 // compose enhancers
-const enhancer = composeEnhancers(applyMiddleware(...middlewares));
 
 // rehydrate state on app start
 const initialState = {};
 
 // create store
-const store = createStore(rootReducer, initialState, enhancer);
+const store = createStore(rootReducer, initialState, composeWithDevTools(
+    applyMiddleware(...middlewares)
+));
 
 // export store singleton instance
 export default store;
