@@ -1,24 +1,23 @@
 import { Term } from 'MyModels';
 import { combineReducers } from 'redux';
-import { createReducer } from 'typesafe-actions';
-import { addTerm } from './actions';
 
-export const terms = createReducer([
-    {
-        id: '0001',
-        name: 'My term',
-    },
-] as Term[])
-    .handleAction(addTerm, (state: any, action: any) => [
-        ...state,
-        action.payload,
-    ]);
-    // .handleAction(removeTerm, (state: any, action: any) => (
-    //     state.filter((i: any) => i.id !== action.payload)
-    // ));
+const initialState: Term[] =  [{
+    id: '0001',
+    name: 'My term',
+}];
 
+const termsActionHandler = (state = initialState, action: any) => {
+    switch (action.type) {
+        case 'ADD_TERM':
+            return [...state, action.payload];
+        case 'REMOVE_TERM':
+            return state.filter((i: any) => i.id !== action.payload);
+        default:
+            return state;
+    }
+}
 const termsReducer = combineReducers({
-    terms,
+    terms: termsActionHandler,
 });
 
 export default termsReducer;
