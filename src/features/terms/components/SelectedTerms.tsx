@@ -4,12 +4,16 @@ import NoneButton from '../../../components/NoneButton';
 import { connect } from 'react-redux';
 import * as selectors from '../selectors';
 import { Term } from 'MyModels';
-
+import * as actions from '../actions';
 const mapStateToProps = (state: RootState) => ({
     terms: selectors.getTerms(state.terms) as Term[],
 });
 
-type P = ReturnType<typeof mapStateToProps>;
+const dispatchProps = {
+    removeTerms: actions.removeTerm,
+};
+
+type P = ReturnType<typeof mapStateToProps>  & typeof dispatchProps;
 
 interface S {}
 
@@ -31,7 +35,7 @@ class SelectedTerms extends React.Component<P, S> {
                                 )?.value;
                                 console.log(event.currentTarget.attributes.getNamedItem('termid',)?.value);
                                 if (TermId !== undefined) {
-                                    this.removeSelectedTerm(TermId);
+                                    this.props.removeTerms(TermId);
                                 }
                             }}
                         >
@@ -46,22 +50,22 @@ class SelectedTerms extends React.Component<P, S> {
         return SelectedTermsList;
     }
 
-    removeSelectedTerm(TermId: string): void {
-        if (this.props.terms.some((term) => term.id === TermId)) {
-            const Index = this.props.terms.findIndex(
-                (term) => term.id === TermId,
-            );
-            const CurrentSelectedTerms = this.props.terms;
-            CurrentSelectedTerms.splice(Index, 1);
-            this.setState({
-                selectedTerms: CurrentSelectedTerms,
-            });
-        }
-    }
+    // removeSelectedTerm(TermId: string): void {
+    //     if (this.props.terms.some((term) => term.id === TermId)) {
+    //         const Index = this.props.terms.findIndex(
+    //             (term) => term.id === TermId,
+    //         );
+    //         const CurrentSelectedTerms = this.props.terms;
+    //         CurrentSelectedTerms.splice(Index, 1);
+    //         this.setState({
+    //             selectedTerms: CurrentSelectedTerms,
+    //         });
+    //     }
+    // }
 
     render(): React.ReactNode {
         return <div className="row">{this.createSelectedTermsList()}</div>;
     }
 }
 
-export default connect(mapStateToProps)(SelectedTerms);
+export default connect(mapStateToProps, dispatchProps)(SelectedTerms);
