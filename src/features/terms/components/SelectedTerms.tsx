@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import * as selectors from '../selectors';
 import { Term } from 'MyModels';
 import * as actions from '../actions';
+
 const mapStateToProps = (state: RootState) => ({
     terms: selectors.getTerms(state.terms) as Term[],
 });
@@ -13,7 +14,7 @@ const dispatchProps = {
     removeTerm: actions.removeTerm,
 };
 
-type P = ReturnType<typeof mapStateToProps>  & typeof dispatchProps;
+type P = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
 interface S {}
 

@@ -2,22 +2,21 @@ import React, { HTMLAttributes } from 'react';
 import SubjectMatter from '../../../data/thesaurus.json';
 import MetaTermList from './MetaTermList';
 import {
-    ISelectedTerms,
     SubjectMatterTerm,
-    ITerm,
-    DispatchType,
 } from '../../../react-app-env';
 import { connect } from 'react-redux';
-// import * as ActionCreator from '../../../store/actionCreators';
+import * as selectors from "../selectors";
+import {Term} from "MyModels";
+import { RootState } from 'typesafe-actions';
 
-interface P {
-    selectedTerms: ISelectedTerms;
-    onAdding: (dispatch: DispatchType) => void;
-}
+const mapStateToProps = (state: RootState) => ({
+    selectedTerms: selectors.getTerms(state.terms) as Term[],
+});
+
+type P = ReturnType<typeof mapStateToProps>;
 
 interface S {
     inputValue: string;
-    selectedTerms: ISelectedTerms;
     termId: string | boolean;
     showResultList: boolean;
     foundSearchedTerm: string | boolean;
@@ -36,7 +35,6 @@ class SearchBox extends React.Component<P, S> {
         this.Terms = SubjectMatter;
         this.state = {
             inputValue: '',
-            selectedTerms: this.props.selectedTerms,
             termId: false,
             showResultList: true,
             foundSearchedTerm: false,
@@ -165,17 +163,17 @@ class SearchBox extends React.Component<P, S> {
     }
 
     addTerm(): void {
-        const NewTerm: ITerm = {
-            Name: this.state.inputValue,
-            TermId: this.state.termId as string,
-        };
-        const CurrentSelectedTerms = this.props.selectedTerms;
-        if (CurrentSelectedTerms.Terms.push(NewTerm) > 0) {
-            this.setState({
-                selectedTerms: CurrentSelectedTerms,
-                showResultList: false,
-            });
-        }
+        // const NewTerm: ITerm = {
+        //     Name: this.state.inputValue,
+        //     TermId: this.state.termId as string,
+        // };
+        // const CurrentSelectedTerms = this.props.selectedTerms;
+        // if (CurrentSelectedTerms.Terms.push(NewTerm) > 0) {
+        //     this.setState({
+        //         selectedTerms: CurrentSelectedTerms,
+        //         showResultList: false,
+        //     });
+        // }
     }
 
     selectTerm(key: string): void {
@@ -209,9 +207,10 @@ class SearchBox extends React.Component<P, S> {
     }
 
     isNewTerm(): boolean {
-        return !this.state.selectedTerms.Terms.some(
-            (term) => term.TermId === this.state.termId,
-        );
+        // return !this.state.selectedTerms.Terms.some(
+        //     (term) => term.TermId === this.state.termId,
+        // );
+        return true;
     }
 
     handleMetaTermClick(term: string): void {
@@ -249,14 +248,4 @@ class SearchBox extends React.Component<P, S> {
     }
 }
 
-function mapStateToProps(state: ISelectedTerms) {
-    return {
-        selectedTerms: state,
-    };
-}
-
-const dispatchToProps = {
-    // onAdding: ActionCreator.addTerm({ Name: 'hello', TermId: '12a31' }),
-};
-
-export default connect(mapStateToProps, dispatchToProps)(SearchBox);
+export default connect(mapStateToProps)(SearchBox);

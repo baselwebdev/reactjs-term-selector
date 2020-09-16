@@ -13,17 +13,6 @@ export interface ITerm {
     TermId: string;
 }
 
-export type TermsState = {
-    Terms: ITerm[];
-};
-
-export type TermAction = {
-    type: string;
-    term: ITerm;
-};
-
-export type DispatchType = (args: TermAction) => TermAction;
-
 export interface ISelectedTerms {
     Terms: ITerm[];
 }
