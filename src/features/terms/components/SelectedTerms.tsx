@@ -10,7 +10,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const dispatchProps = {
-    removeTerms: actions.removeTerm,
+    removeTerm: actions.removeTerm,
 };
 
 type P = ReturnType<typeof mapStateToProps>  & typeof dispatchProps;
@@ -35,7 +35,7 @@ class SelectedTerms extends React.Component<P, S> {
                                 )?.value;
                                 console.log(event.currentTarget.attributes.getNamedItem('termid',)?.value);
                                 if (TermId !== undefined) {
-                                    this.props.removeTerms(TermId);
+                                    this.props.removeTerm(TermId);
                                 }
                             }}
                         >
@@ -49,19 +49,6 @@ class SelectedTerms extends React.Component<P, S> {
         }
         return SelectedTermsList;
     }
-
-    // removeSelectedTerm(TermId: string): void {
-    //     if (this.props.terms.some((term) => term.id === TermId)) {
-    //         const Index = this.props.terms.findIndex(
-    //             (term) => term.id === TermId,
-    //         );
-    //         const CurrentSelectedTerms = this.props.terms;
-    //         CurrentSelectedTerms.splice(Index, 1);
-    //         this.setState({
-    //             selectedTerms: CurrentSelectedTerms,
-    //         });
-    //     }
-    // }
 
     render(): React.ReactNode {
         return <div className="row">{this.createSelectedTermsList()}</div>;
