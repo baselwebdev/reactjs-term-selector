@@ -24,11 +24,12 @@ class SelectedTerms extends React.Component<P, S> {
                         <div
                             key={index}
                             className={'col-4 meta_term_item'}
-                            {...{ id: item.id }}
+                            {...{ termid: item.id }}
                             onClick={(event) => {
                                 const TermId = event.currentTarget.attributes.getNamedItem(
                                     'termid',
                                 )?.value;
+                                console.log(event.currentTarget.attributes.getNamedItem('termid',)?.value);
                                 if (TermId !== undefined) {
                                     this.removeSelectedTerm(TermId);
                                 }
@@ -46,16 +47,16 @@ class SelectedTerms extends React.Component<P, S> {
     }
 
     removeSelectedTerm(TermId: string): void {
-        // if (this.props.terms.some((term) => term.id === TermId)) {
-        //     const Index = this.props.terms.findIndex(
-        //         (term) => term.id === TermId,
-        //     );
-        //     const CurrentSelectedTerms = this.props.terms;
-        //     CurrentSelectedTerms.splice(Index, 1);
-        //     this.setState({
-        //         selectedTerms: CurrentSelectedTerms,
-        //     });
-        // }
+        if (this.props.terms.some((term) => term.id === TermId)) {
+            const Index = this.props.terms.findIndex(
+                (term) => term.id === TermId,
+            );
+            const CurrentSelectedTerms = this.props.terms;
+            CurrentSelectedTerms.splice(Index, 1);
+            this.setState({
+                selectedTerms: CurrentSelectedTerms,
+            });
+        }
     }
 
     render(): React.ReactNode {
