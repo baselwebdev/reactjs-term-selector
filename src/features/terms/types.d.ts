@@ -6,6 +6,6 @@ declare module 'MyModels' {
 
     export type TermAction = {
         type: 'ADD_TERM' | 'REMOVE_TERM';
-        payload: Term[];
+        payload: Term | string;
     };
 }

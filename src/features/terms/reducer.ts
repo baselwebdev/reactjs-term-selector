@@ -13,7 +13,7 @@ const termsActionHandler = (state = initialState, action: TermAction) => {
         case 'ADD_TERM':
             return [...state, action.payload];
         case 'REMOVE_TERM':
-            return state.filter((i: any) => i.id !== action.payload);
+            return state.filter((term: Term) => term.id !== action.payload);
         default:
             return state;
     }
