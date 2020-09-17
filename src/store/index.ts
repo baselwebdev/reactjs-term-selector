@@ -18,9 +18,11 @@ const middlewares = [epicMiddleware];
 const initialState = {};
 
 // create store
-const store = createStore(rootReducer, initialState, composeWithDevTools(
-    applyMiddleware(...middlewares)
-));
+const store = createStore(
+    rootReducer,
+    initialState,
+    composeWithDevTools(applyMiddleware(...middlewares)),
+);
 
 // export store singleton instance
 export default store;

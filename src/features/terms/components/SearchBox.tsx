@@ -1,14 +1,12 @@
 import React, { HTMLAttributes } from 'react';
 import SubjectMatter from '../../../data/thesaurus.json';
 import MetaTermList from './MetaTermList';
-import {
-    SubjectMatterTerm,
-} from '../../../react-app-env';
+import { SubjectMatterTerm } from '../../../react-app-env';
 import { connect } from 'react-redux';
-import * as selectors from "../selectors";
-import {Term} from "MyModels";
+import * as selectors from '../selectors';
+import { Term } from 'MyModels';
 import { RootState } from 'typesafe-actions';
-import * as actions from "../actions";
+import * as actions from '../actions';
 
 const mapStateToProps = (state: RootState) => ({
     selectedTerms: selectors.getTerms(state.terms) as Term[],
