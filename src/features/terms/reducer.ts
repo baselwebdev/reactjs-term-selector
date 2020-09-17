@@ -1,12 +1,14 @@
-import { Term } from 'MyModels';
+import { Term, TermAction } from 'MyModels';
 import { combineReducers } from 'redux';
 
-const initialState: Term[] =  [{
-    id: '0001',
-    name: 'My term',
-}];
+const initialState: Term[] = [
+    {
+        id: '0001',
+        name: 'My term',
+    },
+];
 
-const termsActionHandler = (state = initialState, action: any) => {
+const termsActionHandler = (state = initialState, action: TermAction) => {
     switch (action.type) {
         case 'ADD_TERM':
             return [...state, action.payload];
@@ -15,7 +17,7 @@ const termsActionHandler = (state = initialState, action: any) => {
         default:
             return state;
     }
-}
+};
 const termsReducer = combineReducers({
     terms: termsActionHandler,
 });
