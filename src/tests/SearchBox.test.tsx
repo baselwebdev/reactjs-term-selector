@@ -5,7 +5,6 @@ import userEvent from '@testing-library/user-event';
 
 describe('SearchBox', () => {
     const { getByPlaceholderText, getByText } = render(<SearchBox />);
-
     it('Render found terms', async () => {
         await userEvent.type(getByPlaceholderText('Terms'), 'Hand');
         // The Hand search string is surrounded by a <strong> element.
