@@ -2,8 +2,14 @@ import React from 'react';
 import { render } from './test-utils';
 import SelectedTerms from '../features/terms/components/SelectedTerms';
 
-test('renders learn react link', () => {
+describe('Selected terms', () => {
     const { getByText } = render(<SelectedTerms />);
-    const linkElement = getByText(/My term/i);
-    expect(linkElement).toBeInTheDocument();
+    const selectedTerm = getByText(/My term/i);
+    it('Renders selected terms', () => {
+        expect(selectedTerm).toBeInTheDocument();
+    });
+    it('Removes selected term when clicking on the selected terms', () => {
+        selectedTerm.click();
+        expect(selectedTerm).not.toBeInTheDocument();
+    });
 });
