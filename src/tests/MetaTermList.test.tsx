@@ -51,6 +51,10 @@ describe('When searching for terms the meta terms section and then removing a ch
         expect(app.queryByText('Scaffolding')).not.toBeInTheDocument();
     });
 
+    it('Renders three none buttons for parent, chil and related term section', () => {
+        expect(app.queryAllByText('None').length).toBe(3);
+    });
+
     it('Clears the related term list', () => {
         expect(app.queryByText('Roofs')).not.toBeInTheDocument();
     });
