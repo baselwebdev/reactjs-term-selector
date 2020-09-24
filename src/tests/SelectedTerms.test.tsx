@@ -4,7 +4,7 @@ import SelectedTerms from '../features/terms/components/SelectedTerms';
 
 describe('Selected terms', () => {
     const { getByText } = render(<SelectedTerms />);
-    const selectedTerm = getByText(/My term/i);
+    const selectedTerm = getByText('My term');
     it('Renders selected terms', () => {
         expect(selectedTerm).toBeInTheDocument();
     });

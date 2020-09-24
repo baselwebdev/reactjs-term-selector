@@ -1,7 +1,19 @@
 import React from 'react';
 import { render } from './test-utils';
-import SearchBox from '../features/terms/components/SearchBox';
+import App from '../App';
 import userEvent from '@testing-library/user-event';
+import { RenderResult } from '@testing-library/react';
+import { unmountComponentAtNode } from 'react-dom';
+
+let app: RenderResult;
+
+beforeEach(() => {
+    app = render(<App />);
+});
+
+afterEach(() => {
+    unmountComponentAtNode(app.container);
+});
 
 describe('SearchBox searching showing found term results', () => {
     let foundTermOne: HTMLElement;
@@ -9,12 +21,11 @@ describe('SearchBox searching showing found term results', () => {
     let searchInput: HTMLElement;
 
     beforeEach(async () => {
-        const { getByPlaceholderText, getByText } = render(<SearchBox />);
-        searchInput = getByPlaceholderText('Terms');
+        searchInput = app.getByPlaceholderText('Terms');
         await userEvent.type(searchInput, 'Hand');
         // Hand search string is surrounded by a <strong> element, so we only can search for the non strong element.
-        foundTermOne = getByText('protection');
-        foundTermTwo = getByText('washing');
+        foundTermOne = app.getByText('protection');
+        foundTermTwo = app.getByText('washing');
     });
 
     it('Renders found terms', async () => {
