@@ -6,9 +6,11 @@ import { RenderResult } from '@testing-library/react';
 import { unmountComponentAtNode } from 'react-dom';
 
 let app: RenderResult;
+let searchInput: HTMLElement;
 
 beforeEach(() => {
     app = render(<App />);
+    searchInput = app.getByPlaceholderText('Terms');
 });
 
 afterEach(() => {
@@ -18,17 +20,15 @@ afterEach(() => {
 describe('SearchBox searching showing found term results', () => {
     let foundTermOne: HTMLElement;
     let foundTermTwo: HTMLElement;
-    let searchInput: HTMLElement;
 
     beforeEach(async () => {
-        searchInput = app.getByPlaceholderText('Terms');
         await userEvent.type(searchInput, 'Hand');
         // Hand search string is surrounded by a <strong> element, so we only can search for the non strong element.
         foundTermOne = app.getByText('protection');
         foundTermTwo = app.getByText('washing');
     });
 
-    it('Renders found terms', async () => {
+    it('Renders found terms', () => {
         expect(foundTermOne).toBeInTheDocument();
         expect(foundTermTwo).toBeInTheDocument();
     });
@@ -37,5 +37,25 @@ describe('SearchBox searching showing found term results', () => {
         await userEvent.type(searchInput, '{selectall}{del}');
         expect(foundTermOne).not.toBeInTheDocument();
         expect(foundTermTwo).not.toBeInTheDocument();
+    });
+});
+
+describe('Adding terms', () => {
+    let addButton: HTMLElement;
+
+    beforeEach(async () => {
+        await userEvent.type(searchInput, 'Hand washing');
+        addButton = app.getByText('Add');
+    });
+
+    it('Renders the newly added term in the selected terms section', async () => {
+        addButton.click();
+        await userEvent.type(searchInput, '{selectall}{del}');
+        expect(app.getByText('Hand washing')).toBeInTheDocument();
+    });
+
+    it('Disables the add button when term is already in the selected terms section', () => {
+        addButton.click();
+        expect(addButton.closest('input')).toBeDisabled();
     });
 });
