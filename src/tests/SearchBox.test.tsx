@@ -17,7 +17,7 @@ afterEach(() => {
     unmountComponentAtNode(app.container);
 });
 
-describe('SearchBox searching showing found term results', () => {
+describe('Using SearchBox to search', () => {
     let foundTermOne: HTMLElement;
     let foundTermTwo: HTMLElement;
 
@@ -38,9 +38,14 @@ describe('SearchBox searching showing found term results', () => {
         expect(foundTermOne).not.toBeInTheDocument();
         expect(foundTermTwo).not.toBeInTheDocument();
     });
+
+    it('Populates the search input with the clicked on item from the search results', () => {
+        foundTermOne.click();
+        expect(searchInput.closest('input')?.value).toBe('Hand protection');
+    });
 });
 
-describe('Adding terms', () => {
+describe('When adding terms', () => {
     let addButton: HTMLElement;
 
     beforeEach(async () => {
