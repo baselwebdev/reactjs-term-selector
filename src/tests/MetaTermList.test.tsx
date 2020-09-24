@@ -24,4 +24,10 @@ describe('Searching for term, the meta term section', () => {
         expect(app.getByText('Scaffolding')).toBeInTheDocument();
         expect(app.getByText('Roofs')).toBeInTheDocument();
     });
+
+    it('Populates the search input when clicking on them', async () => {
+        await userEvent.type(searchInput, 'Working at height');
+        app.getByText('Physical hazards').click();
+        expect(searchInput.closest('input')?.value).toBe('Physical hazards');
+    });
 });
