@@ -1,5 +1,6 @@
 {
   "name": "react-js-term-selector",
+  "description": "A showcase ReactJs package. Its a playground to make the use of the following libraries in use: ReactJS, Redux, TypeScript and Jest.",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
