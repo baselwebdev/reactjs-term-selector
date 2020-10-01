@@ -2,7 +2,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { createEpicMiddleware } from 'redux-observable';
 import { RootAction, RootState } from 'typesafe-actions';
 import rootReducer from './root-reducer';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 
 export const epicMiddleware = createEpicMiddleware<
     RootAction,
