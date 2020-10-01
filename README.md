@@ -30,6 +30,14 @@ $ npm install --production
 
 ## Usage
 
+Term selector in action
+
+![Term selector in action](https://baselwebdevgifs.s3.eu-west-2.amazonaws.com/term-selector/term_selector_in_action.gif)
+
+Tests running
+
+![Tests are running](https://baselwebdevgifs.s3.eu-west-2.amazonaws.com/term-selector/test_are_running.gif)
+
 
 ## About
 
