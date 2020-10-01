@@ -7,7 +7,7 @@ import { unmountComponentAtNode } from 'react-dom';
 
 let app: RenderResult;
 let searchInput: HTMLElement;
-const searchTerm = 'Working at height';
+const searchTerm = 'Europe';
 
 beforeEach(async () => {
     app = render(<App />);
@@ -21,20 +21,20 @@ afterEach(() => {
 
 describe('When searching for terms the meta terms section', () => {
     it('Populates the parent term section', () => {
-        expect(app.getByText('Physical hazards')).toBeInTheDocument();
+        expect(app.getByText('Continents')).toBeInTheDocument();
     });
 
     it('Populates the child term section', () => {
-        expect(app.getByText('Scaffolding')).toBeInTheDocument();
+        expect(app.getByText('Ireland')).toBeInTheDocument();
     });
 
     it('Populates the related term section', () => {
-        expect(app.getByText('Roofs')).toBeInTheDocument();
+        expect(app.getByText('Languages')).toBeInTheDocument();
     });
 
     it('Populates the search input when clicking on them', async () => {
-        app.getByText('Physical hazards').click();
-        expect(searchInput.closest('input')?.value).toBe('Physical hazards');
+        app.getByText('Ireland').click();
+        expect(searchInput.closest('input')?.value).toBe('Ireland');
     });
 });
 

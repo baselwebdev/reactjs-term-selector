@@ -1,5 +1,5 @@
 import React, { HTMLAttributes } from 'react';
-import SubjectMatter from '../../../data/thesaurus.json';
+import Terms from '../../../data/thesaurus.json';
 import MetaTermList from './MetaTermList';
 import { SubjectMatterTerm } from '../../../react-app-env';
 import { connect } from 'react-redux';
@@ -35,7 +35,7 @@ class SearchBox extends React.Component<P, S> {
 
     constructor(props: P) {
         super(props);
-        this.Terms = SubjectMatter;
+        this.Terms = Terms;
         this.state = {
             inputValue: '',
             termId: false,

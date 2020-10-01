@@ -22,10 +22,10 @@ describe('Using SearchBox to search', () => {
     let foundTermTwo: HTMLElement;
 
     beforeEach(async () => {
-        await userEvent.type(searchInput, 'Hand');
+        await userEvent.type(searchInput, 'E');
         // Hand search string is surrounded by a <strong> element, so we only can search for the non strong element.
-        foundTermOne = app.getByText('protection');
-        foundTermTwo = app.getByText('washing');
+        foundTermOne = app.getByText('urope');
+        foundTermTwo = app.getByText('nglish');
     });
 
     it('Renders found terms', () => {
@@ -41,7 +41,7 @@ describe('Using SearchBox to search', () => {
 
     it('Populates the search input with the clicked on item from the search results', () => {
         foundTermOne.click();
-        expect(searchInput.closest('input')?.value).toBe('Hand protection');
+        expect(searchInput.closest('input')?.value).toBe('Europe');
     });
 });
 
@@ -49,14 +49,14 @@ describe('When adding terms', () => {
     let addButton: HTMLElement;
 
     beforeEach(async () => {
-        await userEvent.type(searchInput, 'Hand washing');
+        await userEvent.type(searchInput, 'Europe');
         addButton = app.getByText('Add');
     });
 
     it('Renders the newly added term in the selected terms section', async () => {
         addButton.click();
         await userEvent.type(searchInput, '{selectall}{del}');
-        expect(app.getByText('Hand washing')).toBeInTheDocument();
+        expect(app.getByText('Europe')).toBeInTheDocument();
     });
 
     it('Disables the add button when term is already in the selected terms section', () => {
