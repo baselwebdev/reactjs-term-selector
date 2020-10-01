@@ -34,11 +34,6 @@ class SelectedTerms extends React.Component<P, S> {
                                 const TermId = event.currentTarget.attributes.getNamedItem(
                                     'termid',
                                 )?.value;
-                                console.log(
-                                    event.currentTarget.attributes.getNamedItem(
-                                        'termid',
-                                    )?.value,
-                                );
                                 if (TermId !== undefined) {
                                     this.props.removeTerm(TermId);
                                 }
