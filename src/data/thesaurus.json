@@ -1,0 +1,108 @@
+[
+  {
+    "Name": "Europe",
+    "ParentTerms": [
+      "Continents"
+    ],
+    "ChildTerms": [
+      "United Kingdom",
+      "Ireland"
+    ],
+    "RelatedTerms": [
+      "Languages"
+    ],
+    "TermId": "1"
+  },
+  {
+    "Name": "United Kingdom",
+    "ParentTerms": [
+      "Europe"
+    ],
+    "ChildTerms": [],
+    "RelatedTerms": [
+      "English"
+    ],
+    "TermId": "100"
+  },
+  {
+    "Name": "Ireland",
+    "ParentTerms": [
+      "Europe"
+    ],
+    "ChildTerms": [],
+    "RelatedTerms": [
+      "Gaelic"
+    ],
+    "TermId": "101"
+  },
+  {
+    "Name": "English",
+    "ParentTerms": [
+      "Languages"
+    ],
+    "ChildTerms": [],
+    "RelatedTerms": [],
+    "TermId": "102"
+  },
+  {
+    "Name": "Gaelic",
+    "ParentTerms": [
+      "Languages"
+    ],
+    "ChildTerms": [],
+    "RelatedTerms": [],
+    "TermId": "103"
+  },
+  {
+    "Name": "Languages",
+    "ParentTerms": [],
+    "ChildTerms": [
+      "English",
+      "Gaelic"
+    ],
+    "RelatedTerms": [
+      "Europe"
+    ],
+    "TermId": "104"
+  },
+  {
+    "Name": "Continents",
+    "ParentTerms": [],
+    "ChildTerms": [
+      "Europe"
+    ],
+    "RelatedTerms": [
+      "Regions",
+      "Land",
+      "Territory"
+    ],
+    "TermId": "2"
+  },
+  {
+    "Name": "Regions",
+    "ParentTerms": [],
+    "ChildTerms": [],
+    "RelatedTerms": [
+      "Continents"
+    ],
+    "TermId": "3"
+  },
+  {
+    "Name": "Land",
+    "ParentTerms": [],
+    "ChildTerms": [],
+    "RelatedTerms": [
+      "Continents"
+    ],
+    "TermId": "4"
+  },
+  {
+    "Name": "Territory",
+    "ParentTerms": [],
+    "ChildTerms": [],
+    "RelatedTerms": [
+      "Continents"
+    ],
+    "TermId": "5"
+  }
+]
